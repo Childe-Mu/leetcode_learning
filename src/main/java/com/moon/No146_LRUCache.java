@@ -1,7 +1,6 @@
 package com.moon;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 146. LRU缓存机制<br/>
@@ -48,36 +47,36 @@ public class No146_LRUCache {
     //     private Integer capacity;
     //
     //     public LRUCache(int capacity) {
-    //         this.capacity = capacity;
-    //         this.map = new HashMap<>(capacity);
+    //         capacity = capacity;
+    //         map = new HashMap<>(capacity);
     //     }
     //
     //     public int get(int key) {
-    //         Node node = this.map.get(key);
+    //         Node node = map.get(key);
     //         if (node == null) {
     //             System.out.println(-1);
     //             return -1;
     //         }
     //         node.setVersion(version.incrementAndGet());
-    //         this.map.remove(key);
-    //         this.map.put(key, node);
+    //         map.remove(key);
+    //         map.put(key, node);
     //         System.out.println(node.getValue());
     //         return node.getValue();
     //     }
     //
     //     public void put(int key, int value) {
     //         Node node;
-    //         Integer size = this.map.size();
-    //         if (this.capacity <= size && !this.map.containsKey(key)) {
-    //             node = this.map.values().stream().min(Comparator.comparingLong(Node::getVersion)).orElse(new Node());
-    //             this.map.remove(node.getKey());
+    //         Integer size = map.size();
+    //         if (capacity <= size && !map.containsKey(key)) {
+    //             node = map.values().stream().min(Comparator.comparingLong(Node::getVersion)).orElse(new Node());
+    //             map.remove(node.getKey());
     //             node.setKey(key);
     //             node.setValue(value);
     //             node.setVersion(version.incrementAndGet());
     //         } else {
     //             node = new Node(key, value, version.incrementAndGet());
     //         }
-    //         this.map.put(key, node);
+    //         map.put(key, node);
     //         System.out.println("null");
     //     }
     //
@@ -96,9 +95,9 @@ public class No146_LRUCache {
     //         private Integer key;
     //
     //         public Node(Integer key, Integer value, Long version) {
-    //             this.version = version;
-    //             this.value = value;
-    //             this.key = key;
+    //             version = version;
+    //             value = value;
+    //             key = key;
     //         }
     //
     //         public Node() {
@@ -109,7 +108,7 @@ public class No146_LRUCache {
     //         }
     //
     //         public void setVersion(Long version) {
-    //             this.version = version;
+    //             version = version;
     //         }
     //
     //         public Integer getValue() {
@@ -117,7 +116,7 @@ public class No146_LRUCache {
     //         }
     //
     //         public void setValue(Integer value) {
-    //             this.value = value;
+    //             value = value;
     //         }
     //
     //         public Integer getKey() {
@@ -125,7 +124,7 @@ public class No146_LRUCache {
     //         }
     //
     //         public void setKey(Integer key) {
-    //             this.key = key;
+    //             key = key;
     //         }
     //
     //         @Override
@@ -138,84 +137,87 @@ public class No146_LRUCache {
     //         }
     //     }
 
-    /**
-     * hashMap + 双向链表
-     */
+    // /**
+    //  * hashMap + 双向链表
+    //  */
     // static class LRUCache {
     //     /**
     //      * 存储map
     //      */
     //     private HashMap<Integer, Node> map;
     //     /**
-    //      * 存储map
+    //      * 存储容量
     //      */
     //     private Integer capacity;
+    //
     //     /**
     //      * 头结点(不存放数据)
     //      */
     //     private Node head;
+    //
     //     /**
     //      * 尾结点(不存放数据)
     //      */
     //     private Node tail;
     //
     //     public LRUCache(int capacity) {
-    //         this.head = Node.headNode(-1, -1);
-    //         this.tail = Node.tailNode(-1, -1);
-    //         head.next = tail;
-    //         tail.prev = head;
+    //         this.head = new Node();
+    //         this.tail = new Node();
+    //         this.head.next = this.tail;
+    //         this.tail.prev = this.head;
     //         this.capacity = capacity;
     //         this.map = new HashMap<>(capacity);
     //     }
     //
     //     public int get(int key) {
-    //         Node node = this.map.get(key);
+    //         Node node = map.get(key);
     //         if (node == null) {
     //             System.out.println(-1);
     //             return -1;
     //         }
     //         moveToTail(node);
-    //         System.out.println(node.getValue());
-    //         return node.getValue();
+    //         System.out.println(node.value);
+    //         return node.value;
     //     }
     //
     //     public void put(int key, int value) {
-    //         Integer size = this.map.size();
-    //         if (this.capacity <= size) {
-    //             if (!this.map.containsKey(key)) {
-    //                 deleteNode(head.getNext());
-    //             } else {
-    //                 deleteNode(this.map.get(key));
+    //         if (map.containsKey(key)) {
+    //             Node node = map.get(key);
+    //             node.value = value;
+    //             moveToTail(node);
+    //         } else {
+    //             Node node = new Node(key, value);
+    //             map.put(key, node);
+    //             addToTail(node);
+    //             if (map.size() > capacity) {
+    //                 Node oldest = removeOldestNode();
+    //                 map.remove(oldest.key);
     //             }
     //         }
-    //         addNode(key, value);
     //         System.out.println("null");
     //     }
     //
-    //     private void deleteNode(Node node) {
-    //         node.getPrev().setNext(node.getNext());
-    //         node.getNext().setPrev(node.getPrev());
-    //         node.setNext(null);
-    //         node.setPrev(null);
-    //         this.map.remove(node.getKey());
+    //     private Node removeOldestNode() {
+    //         Node node = head.next;
+    //         removeNode(node);
+    //         return node;
+    //     }
+    //
+    //     private void addToTail(Node node) {
+    //         node.prev = tail.prev;
+    //         node.next = tail;
+    //         tail.prev.next = node;
+    //         tail.prev = node;
     //     }
     //
     //     private void moveToTail(Node node) {
-    //         node.getPrev().setNext(node.getNext());
-    //         node.getNext().setPrev(node.getPrev());
-    //         node.setNext(null);
-    //         node.setPrev(null);
-    //         this.map.remove(node.getKey());
-    //         addNode(node.getKey(), node.getValue());
+    //         removeNode(node);
+    //         addToTail(node);
     //     }
     //
-    //     private Node addNode(int key, int value) {
-    //         Node temp = tail.getPrev();
-    //         Node node = new Node(key, value, temp, tail);
-    //         temp.setNext(node);
-    //         tail.setPrev(node);
-    //         this.map.put(key, node);
-    //         return node;
+    //     private void removeNode(Node node) {
+    //         node.prev.next = node.next;
+    //         node.next.prev = node.prev;
     //     }
     //
     //     private static class Node {
@@ -241,60 +243,8 @@ public class No146_LRUCache {
     //             this.value = value;
     //         }
     //
-    //         public static Node headNode(Integer key, Integer value) {
-    //             Node node = new Node(key, value);
-    //             node.setPrev(null);
-    //             return node;
-    //         }
-    //
-    //         public static Node tailNode(Integer key, Integer value) {
-    //             Node node = new Node(key, value);
-    //             node.setNext(null);
-    //             return node;
-    //         }
-    //
-    //         public Node(Integer key, Integer value, Node prev, Node next) {
-    //             this.key = key;
-    //             this.value = value;
-    //             this.prev = prev;
-    //             this.next = next;
-    //         }
-    //
     //         public Node() {
     //         }
-    //
-    //         public Node getPrev() {
-    //             return prev;
-    //         }
-    //
-    //         public void setPrev(Node prev) {
-    //             this.prev = prev;
-    //         }
-    //
-    //         public Node getNext() {
-    //             return next;
-    //         }
-    //
-    //         public void setNext(Node next) {
-    //             this.next = next;
-    //         }
-    //
-    //         public Integer getValue() {
-    //             return value;
-    //         }
-    //
-    //         public void setValue(Integer value) {
-    //             this.value = value;
-    //         }
-    //
-    //         public Integer getKey() {
-    //             return key;
-    //         }
-    //
-    //         public void setKey(Integer key) {
-    //             this.key = key;
-    //         }
-    //
     //         @Override
     //         public String toString() {
     //             return "Node{" +
@@ -305,94 +255,126 @@ public class No146_LRUCache {
     //     }
     //
     // }
+
+    /**
+     * LinkedHashMap
+     */
     static class LRUCache {
-        static class DLinkedNode {
-            int key;
-            int value;
-            DLinkedNode prev;
-            DLinkedNode next;
+        /**
+         * 存储map
+         */
+        private HashMap<Integer, Node> map;
+        /**
+         * 存储容量
+         */
+        private Integer capacity;
 
-            public DLinkedNode() {
-            }
+        /**
+         * 头结点(不存放数据)
+         */
+        private Node head;
 
-            public DLinkedNode(int _key, int _value) {
-                key = _key;
-                value = _value;
-            }
-        }
-
-        private Map<Integer, DLinkedNode> cache = new HashMap<Integer, DLinkedNode>();
-        private int size;
-        private int capacity;
-        private DLinkedNode head, tail;
+        /**
+         * 尾结点(不存放数据)
+         */
+        private Node tail;
 
         public LRUCache(int capacity) {
-            this.size = 0;
+            this.head = new Node();
+            this.tail = new Node();
+            this.head.next = this.tail;
+            this.tail.prev = this.head;
             this.capacity = capacity;
-            // 使用伪头部和伪尾部节点
-            head = new DLinkedNode();
-            tail = new DLinkedNode();
-            head.next = tail;
-            tail.prev = head;
+            this.map = new HashMap<>(capacity);
         }
 
         public int get(int key) {
-            DLinkedNode node = cache.get(key);
+            Node node = map.get(key);
             if (node == null) {
+                System.out.println(-1);
                 return -1;
             }
-            // 如果 key 存在，先通过哈希表定位，再移到头部
-            moveToHead(node);
+            moveToTail(node);
+            System.out.println(node.value);
             return node.value;
         }
 
         public void put(int key, int value) {
-            DLinkedNode node = cache.get(key);
-            if (node == null) {
-                // 如果 key 不存在，创建一个新的节点
-                DLinkedNode newNode = new DLinkedNode(key, value);
-                // 添加进哈希表
-                cache.put(key, newNode);
-                // 添加至双向链表的头部
-                addToHead(newNode);
-                ++size;
-                if (size > capacity) {
-                    // 如果超出容量，删除双向链表的尾部节点
-                    DLinkedNode tail = removeTail();
-                    // 删除哈希表中对应的项
-                    cache.remove(tail.key);
-                    --size;
-                }
-            } else {
-                // 如果 key 存在，先通过哈希表定位，再修改 value，并移到头部
+            if (map.containsKey(key)) {
+                Node node = map.get(key);
                 node.value = value;
-                moveToHead(node);
+                moveToTail(node);
+            } else {
+                Node node = new Node(key, value);
+                map.put(key, node);
+                addToTail(node);
+                if (map.size() > capacity) {
+                    Node oldest = removeOldestNode();
+                    map.remove(oldest.key);
+                }
             }
+            System.out.println("null");
         }
 
-        private void addToHead(DLinkedNode node) {
-            node.prev = head;
-            node.next = head.next;
-            head.next.prev = node;
-            head.next = node;
+        private Node removeOldestNode() {
+            Node node = head.next;
+            removeNode(node);
+            return node;
         }
 
-        private void removeNode(DLinkedNode node) {
+        private void addToTail(Node node) {
+            node.prev = tail.prev;
+            node.next = tail;
+            tail.prev.next = node;
+            tail.prev = node;
+        }
+
+        private void moveToTail(Node node) {
+            removeNode(node);
+            addToTail(node);
+        }
+
+        private void removeNode(Node node) {
             node.prev.next = node.next;
             node.next.prev = node.prev;
         }
 
-        private void moveToHead(DLinkedNode node) {
-            removeNode(node);
-            addToHead(node);
+        private static class Node {
+            /**
+             * key
+             */
+            private Integer key;
+            /**
+             * value
+             */
+            private Integer value;
+            /**
+             * 前驱节点
+             */
+            private Node prev;
+            /**
+             * 后置节点
+             */
+            private Node next;
+
+            public Node(Integer key, Integer value) {
+                this.key = key;
+                this.value = value;
+            }
+
+            public Node() {
+            }
+            @Override
+            public String toString() {
+                return "Node{" +
+                        "key=" + key +
+                        ", value=" + value +
+                        '}';
+            }
         }
 
-        private DLinkedNode removeTail() {
-            DLinkedNode res = tail.prev;
-            removeNode(res);
-            return res;
-        }
     }
+
 
 
     public static void main(String[] args) {
@@ -408,13 +390,15 @@ public class No146_LRUCache {
         // cache.get(3);       // 返回  3
         // cache.get(4);       // 返回  4
 
-        cache.put(2, 1);
         cache.put(1, 1);
-        cache.put(2, 3);
-        cache.put(4, 1);
+        cache.put(2, 2);
         cache.get(1);
+        cache.put(3, 3);
         cache.get(2);
-        cache.put(5, 5);
+        cache.put(4, 4);
+        cache.get(1);
+        cache.get(3);
+        cache.get(4);
     }
 }
 
@@ -422,6 +406,7 @@ public class No146_LRUCache {
 /**
  * ["LRUCache","put","put","put","put","get","get"]
  * [[2],[2,1],[1,1],[2,3],[4,1],[1],[2]]
+ * [[2],[1,1],[2,2],[1],[3,3],[2],[4,4],[1],[3],[4]]
  * Your LRUCache object will be instantiated and called as such:
  * LRUCache obj = new LRUCache(capacity);
  * int param_1 = obj.get(key);
