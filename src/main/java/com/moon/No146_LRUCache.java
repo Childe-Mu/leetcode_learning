@@ -1,6 +1,7 @@
 package com.moon;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * 146. LRU缓存机制<br/>
@@ -260,121 +261,43 @@ public class No146_LRUCache {
      * LinkedHashMap
      */
     static class LRUCache {
-        /**
-         * 存储map
-         */
-        private HashMap<Integer, Node> map;
-        /**
-         * 存储容量
-         */
-        private Integer capacity;
 
-        /**
-         * 头结点(不存放数据)
-         */
-        private Node head;
+        private Cache<Integer, Integer> cache;
 
-        /**
-         * 尾结点(不存放数据)
-         */
-        private Node tail;
-
-        public LRUCache(int capacity) {
-            this.head = new Node();
-            this.tail = new Node();
-            this.head.next = this.tail;
-            this.tail.prev = this.head;
-            this.capacity = capacity;
-            this.map = new HashMap<>(capacity);
+        public LRUCache(int maxEntries) {
+            this.cache = new Cache<>(maxEntries);
         }
 
-        public int get(int key) {
-            Node node = map.get(key);
-            if (node == null) {
-                System.out.println(-1);
-                return -1;
+        public Integer get(Integer key) {
+            Integer value = cache.get(key);
+            if (value == null) {
+                value = -1;
             }
-            moveToTail(node);
-            System.out.println(node.value);
-            return node.value;
+            System.out.println(value);
+            return value;
         }
 
-        public void put(int key, int value) {
-            if (map.containsKey(key)) {
-                Node node = map.get(key);
-                node.value = value;
-                moveToTail(node);
-            } else {
-                Node node = new Node(key, value);
-                map.put(key, node);
-                addToTail(node);
-                if (map.size() > capacity) {
-                    Node oldest = removeOldestNode();
-                    map.remove(oldest.key);
-                }
-            }
+        public Integer put(Integer key, Integer value) {
             System.out.println("null");
+            return cache.put(key, value);
         }
 
-        private Node removeOldestNode() {
-            Node node = head.next;
-            removeNode(node);
-            return node;
-        }
+        static class Cache<K, V> extends LinkedHashMap<K, V> {
 
-        private void addToTail(Node node) {
-            node.prev = tail.prev;
-            node.next = tail;
-            tail.prev.next = node;
-            tail.prev = node;
-        }
+            private int maxEntries;
 
-        private void moveToTail(Node node) {
-            removeNode(node);
-            addToTail(node);
-        }
-
-        private void removeNode(Node node) {
-            node.prev.next = node.next;
-            node.next.prev = node.prev;
-        }
-
-        private static class Node {
-            /**
-             * key
-             */
-            private Integer key;
-            /**
-             * value
-             */
-            private Integer value;
-            /**
-             * 前驱节点
-             */
-            private Node prev;
-            /**
-             * 后置节点
-             */
-            private Node next;
-
-            public Node(Integer key, Integer value) {
-                this.key = key;
-                this.value = value;
+            public Cache(int maxEntries) {
+                super(16, 0.75f, true);
+                this.maxEntries = maxEntries;
             }
 
-            public Node() {
-            }
             @Override
-            public String toString() {
-                return "Node{" +
-                        "key=" + key +
-                        ", value=" + value +
-                        '}';
+            public boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+                return size() > maxEntries;
             }
         }
 
     }
-
 
 
     public static void main(String[] args) {
