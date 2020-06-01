@@ -36,22 +36,38 @@ import java.util.List;
  * </code>
  */
 public class No1431_kidsWithCandies {
+    // public static List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
+    //     List<Boolean> result = new ArrayList<>();
+    //     int max = Arrays.stream(candies).boxed().max(Comparator.comparingInt(o -> o)).orElse(0);
+    //     System.out.println(max);
+    //     for (int candy : candies) {
+    //         result.add(candy + extraCandies >= max);
+    //     }
+    //     return result;
+    // }
+
+    // 直接用简单的for循环+if/else，执行时间最短，速度最快
     public static List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
         List<Boolean> result = new ArrayList<>();
-        int max = Arrays.stream(candies).boxed().max(Comparator.comparingInt(o -> o)).orElse(0);
+        int max = 0;
+        // for (int i = 0; i < candies.length - 1; i++) {
+        //     max = Math.max(candies[i], max);
+        // }
+        for (int candy : candies) {
+            max = Math.max(candy, max);
+        }
         System.out.println(max);
         for (int candy : candies) {
-            // if (candy + extraCandies >= max) {
-            //     result.add(true);
-            // } else {
-            //     result.add(false);
-            // }
-            result.add(candy + extraCandies >= max);
+            if (candy + extraCandies >= max) {
+                result.add(true);
+            } else {
+                result.add(false);
+            }
         }
         return result;
     }
 
     public static void main(String[] args) {
-        System.out.println(kidsWithCandies(new int[]{2,3,5,1,3}, 3));
+        System.out.println(kidsWithCandies(new int[]{2, 3, 5, 1, 3}, 3));
     }
 }
