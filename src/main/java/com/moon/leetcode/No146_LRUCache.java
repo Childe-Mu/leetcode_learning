@@ -1,4 +1,4 @@
-package com.moon;
+package com.moon.leetcode;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

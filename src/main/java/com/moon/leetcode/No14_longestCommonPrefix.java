@@ -1,6 +1,7 @@
-package com.moon;
+package com.moon.leetcode;
 
 /**
+ * 14. 最长公共前缀  <br/>
  * 编写一个函数来查找字符串数组中的最长公共前缀。<br/>
  * 如果不存在公共前缀，返回空字符串 ""。 <br/>
  * <br/>

@@ -1,4 +1,4 @@
-package com.moon;
+package com.moon.leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
