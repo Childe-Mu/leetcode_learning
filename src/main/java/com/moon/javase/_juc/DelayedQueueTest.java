@@ -14,25 +14,28 @@ import java.util.concurrent.TimeUnit;
 public class DelayedQueueTest {
     public static void main(String[] args) throws InterruptedException {
         Item item1 = new Item("item1", 20, TimeUnit.SECONDS);
-        Item item2 = new Item("item2", 100, TimeUnit.SECONDS);
-        Item item3 = new Item("item3", 50, TimeUnit.SECONDS);
+        Item item2 = new Item("item2", 10, TimeUnit.SECONDS);
+        Item item3 = new Item("item3", 5, TimeUnit.SECONDS);
         DelayQueue<Item> queue = new DelayQueue<>();
         queue.put(item1);
         queue.put(item2);
         queue.put(item3);
         System.out.println("begin time:" + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        for (int i = 0; i < 3; i++) {
-            // 阻塞方式获取
-            Item take = queue.take();
-            System.out.format("name:{%s}, time:{%s}\n", take.name, LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
-        }
-        // 非阻塞方式获取
-        // Item take;
-        // while (!queue.isEmpty()) {
-        //     if ((take = queue.poll()) != null) {
-        //         System.out.format("name:{%s}, time:{%s}\n", take.name, LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
-        //     }
+        // for (int i = 0; i < 3; i++) {
+        //     // 阻塞方式获取
+        //     Item take = queue.take();
+        //     System.out.format("name:{%s}, time:{%s}\n", take.name, LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
         // }
+        // 非阻塞方式获取
+        Item take;
+        while (!queue.isEmpty()) {
+            take = queue.poll(5, TimeUnit.SECONDS);
+            if (take != null) {
+                System.out.format("name:{%s}, time:{%s}\n", take.name, LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
+            } else {
+                System.out.println("null");
+            }
+        }
     }
 
 }
@@ -52,7 +55,7 @@ class Item implements Delayed {
         // 从这个打印可以看出，刚开始差不多每1.5毫秒调用一次getDelay()方法，随着时间靠近队列首位元素，频率越来越快，最终可以达到微秒级别。
         // 用来比较当前时间和队列首位元素时间，如果小于等于0，则取出，
         // 这样导致CPU一直忙碌，浪费性能
-        System.out.println(time - System.currentTimeMillis());
+        // System.out.println(time - System.currentTimeMillis());
         // int i = 0;
         // if (++i % 10 == 0) {
         //     System.out.println();
