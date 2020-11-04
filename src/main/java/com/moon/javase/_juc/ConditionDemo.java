@@ -7,7 +7,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * ConditionDemo
+ * ConditionDemo<br/>
+ * 1. 在调用方法前获取锁<br/>
+ * 2. 当调用await()方法后，当前线程会释放锁并在此等待，而其他线程调用Condition对象的signal()方法，
+ * 通知当前线程后，当前线程才从await()方法返回，并且在返回前已经获取了锁。<br/>
  */
 public class ConditionDemo {
     private Lock lock = new ReentrantLock();
