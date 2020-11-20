@@ -89,6 +89,10 @@ public class No1195_FizzBuzz {
  * 相比于CyclicBarrier，用Semaphore效率会略高一些，这是因为避免一些不必要的线程切换
  * <p>
  * 使用 ReentrantLock 和 Condition，能用信号量的地方一定可以用管程，但是会麻烦许多
+ * <p>
+ * 相比于CyclicBarrier，用Semaphore效率会略高一些，这是因为避免一些不必要的线程切换
+ * <p>
+ * 使用 ReentrantLock 和 Condition，能用信号量的地方一定可以用管程，但是会麻烦许多
  */
 // class FizzBuzz {
 //     private int n;
@@ -310,7 +314,7 @@ public class No1195_FizzBuzz {
 // }
 
 /**
- * 使用
+ * 使用synchronized,和使用ReentrantLock相似，但是会会更麻烦一些
  */
 class FizzBuzz {
     private int n;
@@ -322,8 +326,8 @@ class FizzBuzz {
 
     // printFizz.run() outputs "fizz".
     public void fizz(Runnable printFizz) throws InterruptedException {
-        synchronized (this) {
-            while (i <= n) {
+        while (true) {
+            synchronized (this) {
                 while (i % 3 != 0 || i % 15 == 0) {
                     notifyAll();
                     wait();
@@ -340,8 +344,8 @@ class FizzBuzz {
 
     // printBuzz.run() outputs "buzz".
     public void buzz(Runnable printBuzz) throws InterruptedException {
-        synchronized (this) {
-            while (i <= n) {
+        while (true) {
+            synchronized (this) {
                 while (i % 5 != 0 || i % 15 == 0) {
                     notifyAll();
                     wait();
@@ -358,8 +362,8 @@ class FizzBuzz {
 
     // printFizzBuzz.run() outputs "fizzbuzz".
     public void fizzbuzz(Runnable printFizzBuzz) throws InterruptedException {
-        synchronized (this) {
-            while (i <= n) {
+        while (true) {
+            synchronized (this) {
                 while (i % 15 != 0) {
                     notifyAll();
                     wait();
@@ -376,8 +380,8 @@ class FizzBuzz {
 
     // printNumber.accept(x) outputs "x", where x is an integer.
     public void number(IntConsumer printNumber) throws InterruptedException {
-        synchronized (this) {
-            while (i <= n) {
+        while (true) {
+            synchronized (this) {
                 while (i % 3 == 0 || i % 5 == 0) {
                     notifyAll();
                     wait();
