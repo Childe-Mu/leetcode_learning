@@ -1,5 +1,7 @@
 package com.moon.leetcode;
 
+import java.util.Arrays;
+
 /**
  * 136. 只出现一次的数字
  * <p>
@@ -23,7 +25,7 @@ public class No136_singleNumber {
     /**
      * 异或运算
      */
-    public int singleNumber(int[] nums) {
+    public int singleNumber_v1(int[] nums) {
         int single = 0;
         for (int num : nums) {
             single ^= num;
