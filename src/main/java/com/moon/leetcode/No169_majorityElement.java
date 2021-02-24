@@ -44,9 +44,12 @@ public class No169_majorityElement {
         return 0;
     }
 
+    /**
+     * 多数投票算法(Boyer-Moore Algorithm)
+     */
     public static int majorityElement_v3(int[] nums) {
         int count = 0;
-        Integer candidate = null;
+        int candidate = 0;
         for (int num : nums) {
             if (count == 0) {
                 candidate = num;
@@ -57,6 +60,6 @@ public class No169_majorityElement {
     }
 
     public static void main(String[] args) {
-        System.out.println(majorityElement_v2(new int[]{2, 2, 1, 1, 1, 2, 2}));
+        System.out.println(majorityElement_v3(new int[]{1, 0, 2, 0, 0}));
     }
 }
