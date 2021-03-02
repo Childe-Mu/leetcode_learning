@@ -1,5 +1,9 @@
 package com.moon.leetcode;
 
+import com.google.common.collect.Lists;
+
+import java.util.List;
+
 /**
  * 303. 区域和检索 - 数组不可变
  * <p>
@@ -43,5 +47,11 @@ public class No303_NumArray {
 
     public int sumRange(int i, int j) {
         return sums[j + 1] - sums[i];
+    }
+
+    public static void main(String[] args) {
+        List<Integer> l = Lists.newArrayList(1, 2, 3, 4, 5, 6);
+        System.out.println(l.subList(0,3));
+        System.out.println(l);
     }
 }
