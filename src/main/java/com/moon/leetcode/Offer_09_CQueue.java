@@ -34,47 +34,47 @@ public class Offer_09_CQueue {
         System.out.println(cQueue.deleteHead());
         System.out.println(cQueue.deleteHead());
     }
-}
+    static class CQueue {
+        private Stack<Integer> addStack;
+        private Stack<Integer> deleteStack;
 
-class CQueue {
-    private Stack<Integer> addStack;
-    private Stack<Integer> deleteStack;
-
-    public CQueue() {
-        this.addStack = new Stack<>();
-        this.deleteStack = new Stack<>();
-    }
-
-    public void appendTail(int value) {
-        addStack.push(value);
-    }
-
-    public int deleteHead() {
-        if (deleteStack.empty()) {
-            if (addStack.empty()) {
-                return -1;
-            } else {
-                while (!addStack.empty()) {
-                    deleteStack.push(addStack.pop());
-                }
-                return deleteStack.pop();
-            }
-        } else {
-            return deleteStack.peek();
+        public CQueue() {
+            this.addStack = new Stack<>();
+            this.deleteStack = new Stack<>();
         }
+
+        public void appendTail(int value) {
+            addStack.push(value);
+        }
+
+        public int deleteHead() {
+            if (deleteStack.empty()) {
+                if (addStack.empty()) {
+                    return -1;
+                } else {
+                    while (!addStack.empty()) {
+                        deleteStack.push(addStack.pop());
+                    }
+                    return deleteStack.pop();
+                }
+            } else {
+                return deleteStack.peek();
+            }
+        }
+        // /**
+        //  * 相较于上面直接if判断，下面这种通过while循环判断，然后三母运算符判断，
+        //  * 虽然逻辑上一样，代码上更少，但是实际运行效率查了上面的代码十几秒
+        //  */
+        // public int deleteHead() {
+        //     if (deleteStack.empty()) {
+        //         while (!addStack.empty()) {
+        //             deleteStack.push(addStack.pop());
+        //         }
+        //         return deleteStack.empty() ? -1 : deleteStack.pop();
+        //     } else {
+        //         return deleteStack.pop();
+        //     }
+        // }
     }
-    // /**
-    //  * 相较于上面直接if判断，下面这种通过while循环判断，然后三母运算符判断，
-    //  * 虽然逻辑上一样，代码上更少，但是实际运行效率查了上面的代码十几秒
-    //  */
-    // public int deleteHead() {
-    //     if (deleteStack.empty()) {
-    //         while (!addStack.empty()) {
-    //             deleteStack.push(addStack.pop());
-    //         }
-    //         return deleteStack.empty() ? -1 : deleteStack.pop();
-    //     } else {
-    //         return deleteStack.pop();
-    //     }
-    // }
 }
+
