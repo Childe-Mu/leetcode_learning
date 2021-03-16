@@ -54,4 +54,8 @@ public class No202_isHappy {
         }
         return n == 1;
     }
+
+    public static void main(String[] args) {
+        System.out.println(new No202_isHappy().isHappy(18));
+    }
 }
