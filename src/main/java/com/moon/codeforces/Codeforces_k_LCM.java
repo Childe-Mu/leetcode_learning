@@ -1,4 +1,4 @@
-package com.moon.leetcode;
+package com.moon.codeforces;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,16 +8,43 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 /**
- * @Description:
- * @Author: quanrui.li
- * @Date: 2021/3/19
+ * C2. k-LCM
+ * <p>
+ * It is the hard version of the problem. The only difference is that in this version 3≤k≤n.
+ * <p>
+ * You are given a positive integer n. Find k positive integers a1,a2,…,ak, such that:
+ * <p>
+ * a1+a2+…+ak=n
+ * LCM(a1,a2,…,ak)≤n2
+ * Here LCM is the least common multiple of numbers a1,a2,…,ak.
+ * <p>
+ * We can show that for given constraints the answer always exists.
+ * <p>
+ * Input
+ * The first line contains a single integer t (1≤t≤104)  — the number of test cases.
+ * <p>
+ * The only line of each test case contains two integers n, k (3≤n≤109, 3≤k≤n).
+ * <p>
+ * It is guaranteed that the sum of k over all test cases does not exceed 105.
+ * <p>
+ * Output
+ * For each test case print k positive integers a1,a2,…,ak, for which all conditions are satisfied.
+ * <p>
+ * Example
+ * inputCopy
+ * 2
+ * 6 4
+ * 9 5
+ * outputCopy
+ * 1 2 2 1
+ * 1 3 3 1 1
  */
-public class Template {
+public class Codeforces_k_LCM {
 
     public static void main(String[] args) throws IOException {
         FastScanner in = new FastScanner(System.in);
         PrintWriter out = new PrintWriter(System.out);
-        new Template().run(in, out);
+        new Codeforces_k_LCM().run(in, out);
         out.close();
     }
 
