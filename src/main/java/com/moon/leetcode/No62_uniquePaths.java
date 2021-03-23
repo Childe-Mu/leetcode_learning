@@ -48,7 +48,6 @@ public class No62_uniquePaths {
         for (int i = 0; i < m; i++) {
             f[i][0] = 1;
         }
-        f[0][0] = 0;
         for (int i = 1; i < m; i++) {
             for (int j = 1; j < n; j++) {
                 f[i][j] = f[i][j - 1] + f[i - 1][j];
