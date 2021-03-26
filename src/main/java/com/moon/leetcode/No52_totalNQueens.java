@@ -53,10 +53,10 @@ public class No52_totalNQueens {
             column.add(i);
             diagonal1.add(row + i);
             diagonal2.add(row - i);
-            backtrack(n, row, column, diagonal1, diagonal2);
-            diagonal2.add(row - i);
-            diagonal1.add(row + i);
-            column.add(i);
+            backtrack(n, row + 1, column, diagonal1, diagonal2);
+            diagonal2.remove(row - i);
+            diagonal1.remove(row + i);
+            column.remove(i);
         }
     }
 }
