@@ -81,18 +81,18 @@ public class No51_solveNQueens {
         return res;
     }
 
-    private static void backtrack(int len, int row, int column, int diagonal1, int diagonal2, List<List<String>> res, Deque<String> path) {
-        if (row == len) {
+    private static void backtrack(int n, int row, int column, int diagonal1, int diagonal2, List<List<String>> res, Deque<String> path) {
+        if (row == n) {
             res.add(new ArrayList<>(path));
             return;
         }
-        int availablePositions = ((1 << len) - 1) & (~(column | diagonal1 | diagonal2));
+        int availablePositions = ((1 << n) - 1) & (~(column | diagonal1 | diagonal2));
         while (availablePositions != 0) {
             int position = availablePositions & (-availablePositions);
             int col = Integer.bitCount(position - 1);
             path.add(new StringBuilder(s).replace(col, col + 1, "Q").toString());
             availablePositions &= (availablePositions - 1);
-            backtrack(len, row + 1, column | position, (diagonal1 | position) << 1, (diagonal2 | position) >> 1, res, path);
+            backtrack(n, row + 1, column | position, (diagonal1 | position) << 1, (diagonal2 | position) >> 1, res, path);
             path.removeLast();
         }
     }
