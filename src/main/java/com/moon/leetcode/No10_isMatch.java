@@ -52,10 +52,14 @@ import java.util.List;
  */
 public class No10_isMatch {
     public static void main(String[] args) {
-        System.out.println(new No10_isMatch().isMatch("aaa", "a"));
+        System.out.println(new No10_isMatch().isMatch("mississippi", "mis*is*ip*."));
+        System.out.println(new No10_isMatch().isMatch("a", "b*b*a"));
     }
 
     public boolean isMatch(String s, String p) {
+//        if (p.indexOf('*') == -1 || s.length() != p.length()) {
+//            return false;
+//        }
         int m = s.length();
         int n = p.length();
         List<String> pp = new ArrayList<>();
@@ -70,23 +74,24 @@ public class No10_isMatch {
         }
         int nn = pp.size();
         boolean[][] f = new boolean[m + 1][nn + 1];
-        for (int i = 0; i < m; i++) {
-            f[i][0] = true;
+        f[0][0] = true;
+        int z = 0;
+        while (z < nn && pp.get(z).length() == 2) {
+            f[0][z + 1] = true;
+            z++;
         }
-        for (int i = 0; i < m; ) {
-            for (int j = 0; j < nn; ) {
-                if (pp.get(j).equals(".") || pp.get(j).charAt(0) == s.charAt(i)) {
-                    f[i + 1][j + 1] = f[i][j];
-                    i++;
-                    j++;
-                } else if (pp.get(j).equals(".*")) {
-                    f[i + 1][j + 1] = f[i + 1][j++] || f[i++][j + 1];
-                } else if (pp.get(j).charAt(1) == '*') {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < nn; j++) {
+                if (pp.get(j).equals(".*")) {
+                    f[i + 1][j + 1] = f[i + 1][j] || f[i][j + 1];
+                } else if (pp.get(j).length() == 2) {
                     if (s.charAt(i) == pp.get(j).charAt(0)) {
-                        f[i + 1][j + 1] = f[i + 1][j++] || f[i][j + 1];
+                        f[i + 1][j + 1] = f[i + 1][j] || f[i][j + 1];
                     } else {
                         f[i + 1][j + 1] = f[i + 1][j];
                     }
+                } else if (pp.get(j).equals(".") || pp.get(j).charAt(0) == s.charAt(i)) {
+                    f[i + 1][j + 1] = f[i][j];
                 }
             }
         }
