@@ -1,6 +1,7 @@
 package com.moon.leetcode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -52,14 +53,146 @@ import java.util.List;
  */
 public class No10_isMatch {
     public static void main(String[] args) {
-        System.out.println(new No10_isMatch().isMatch("mississippi", "mis*is*ip*."));
-        System.out.println(new No10_isMatch().isMatch("a", "b*b*a"));
+        System.out.println(new No10_isMatch().isMatch_v2("aa", "a*"));
+//        System.out.println(new No10_isMatch().isMatch_v1("a", "b*b*a"));
     }
 
-    public boolean isMatch(String s, String p) {
-//        if (p.indexOf('*') == -1 || s.length() != p.length()) {
-//            return false;
-//        }
+    /**
+     * v1 递归 暴力寻解
+     */
+    public boolean isMatch_v1(String s, String p) {
+        int n = p.length();
+        List<String> pp = new ArrayList<>();
+        for (int i = 0; i < n; ) {
+            if (i + 1 < n && p.charAt(i + 1) == '*') {
+                pp.add("" + p.charAt(i) + p.charAt(i + 1));
+                i += 2;
+            } else {
+                pp.add("" + p.charAt(i));
+                i++;
+            }
+        }
+        return match(s, 0, pp, 0);
+    }
+
+    private boolean match(String s, int i, List<String> p, int j) {
+        System.out.println("i=" + i + " j=" + j);
+        if (j == p.size()) {
+            return i == s.length();
+        } else if (i == s.length()) {
+            return p.get(j).length() == 2 && match(s, i, p, j + 1);
+        } else {
+            String pp = p.get(j);
+            boolean b = pp.charAt(0) == '.' || pp.charAt(0) == s.charAt(i);
+            System.out.println(s.charAt(i) + " match " + p.get(j));
+            if (pp.length() == 2) {
+                if (b) {
+                    return match(s, i, p, j + 1) || match(s, i + 1, p, j);
+                } else {
+                    return match(s, i, p, j + 1);
+                }
+            } else {
+                if (b) {
+                    return match(s, i + 1, p, j + 1);
+                } else {
+                    return false;
+                }
+            }
+        }
+    }
+
+    /**
+     * v1.1 优化递归代码合并判断
+     */
+    public boolean isMatch_v1_1(String s, String p) {
+        if (p.isEmpty()) {
+            return s.isEmpty();
+        }
+        boolean match = !s.isEmpty() && ((s.charAt(0) == p.charAt(0)) || p.charAt(0) == '.');
+        if (p.length() >= 2 && p.charAt(1) == '*') {
+            return isMatch_v1_1(s, p.substring(2)) || (match && isMatch_v1_1(s.substring(1), p));
+        }
+        return match && isMatch_v1_1(s.substring(1), p.substring(1));
+    }
+
+    /**
+     * v1.2 在1.1的基础上，进一步优化递归代码
+     * <p>
+     * 通过charAt的方式访问要比char[]的方式慢很多，作为对比，这里附上通过toCharArray转换的版本，前者用时109ms，后者17ms，可见差距之大。这里主要应该是因为charAt方法多了一层栈的深度（需要进出对象）。
+     */
+    public boolean isMatch_v1_2(String s, String p) {
+        char[] ss = s.toCharArray(), pp = p.toCharArray();
+        return isMatchChar(ss, 0, pp, 0);
+    }
+
+    public boolean isMatchChar(char[] s, int s1, char[] p, int p1) {
+        if (p1 >= p.length) return s1 >= s.length;
+        boolean match = s1 < s.length && ((s[s1] == p[p1]) || p[p1] == '.');
+        if (p.length - p1 >= 2 && p[p1 + 1] == '*')
+            return isMatchChar(s, s1, p, p1 + 2) || (match && isMatchChar(s, s1 + 1, p, p1));
+        return match && isMatchChar(s, s1 + 1, p, p1 + 1);
+    }
+
+    /**
+     * v2，记忆化搜索
+     */
+    public boolean isMatch_v2(String s, String p) {
+        int n = p.length();
+        List<String> pp = new ArrayList<>();
+        for (int i = 0; i < n; ) {
+            if (i + 1 < n && p.charAt(i + 1) == '*') {
+                pp.add("" + p.charAt(i) + p.charAt(i + 1));
+                i += 2;
+            } else {
+                pp.add("" + p.charAt(i));
+                i++;
+            }
+        }
+        int[][] mem = new int[s.length() + 1][pp.size() + 1];
+        int res = matchForMem(s, 0, pp, 0, mem);
+        System.out.println(Arrays.deepToString(mem));
+        return res == 1;
+    }
+
+    private int matchForMem(String s, int i, List<String> p, int j, int[][] mem) {
+        System.out.println("i=" + i + " j=" + j);
+        if (mem[i][j] != 0) {
+            System.out.println("mem");
+            return mem[i][j];
+        } else if (j == p.size()) {
+            mem[i][j] = i == s.length() ? 1 : -1;
+        } else if (i == s.length()) {
+            if (p.get(j).length() == 2) {
+                mem[i][j] = matchForMem(s, i, p, j + 1, mem);
+            } else {
+                mem[i][j] = -1;
+            }
+        } else {
+            String pp = p.get(j);
+            boolean b = pp.charAt(0) == '.' || pp.charAt(0) == s.charAt(i);
+            System.out.println(s.charAt(i) + " match " + p.get(j));
+            if (pp.length() == 2) {
+                if (b) {
+                    mem[i][j] = (matchForMem(s, i, p, j + 1, mem) == 1)
+                            || (matchForMem(s, i + 1, p, j, mem) == 1) ? 1 : -1;
+                } else {
+                    mem[i][j] = matchForMem(s, i, p, j + 1, mem);
+                }
+            } else {
+                if (b) {
+                    mem[i][j] = matchForMem(s, i + 1, p, j + 1, mem);
+                } else {
+                    mem[i][j] = -1;
+                }
+            }
+        }
+        return mem[i][j];
+    }
+
+    /**
+     * 动态规划
+     */
+    public boolean isMatch_v3(String s, String p) {
         int m = s.length();
         int n = p.length();
         List<String> pp = new ArrayList<>();
@@ -97,4 +230,5 @@ public class No10_isMatch {
         }
         return f[m][nn];
     }
+
 }
