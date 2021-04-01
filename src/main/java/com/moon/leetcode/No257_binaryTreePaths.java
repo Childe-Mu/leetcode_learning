@@ -1,6 +1,9 @@
 package com.moon.leetcode;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,7 +29,7 @@ import java.util.List;
  */
 public class No257_binaryTreePaths {
 
-    public static List<String> binaryTreePaths(TreeNode root) {
+    public static List<String> binaryTreePaths_v1(TreeNode root) {
         List<String> paths = new ArrayList<>();
         constructPaths(root, "", paths);
         return paths;
@@ -46,8 +49,48 @@ public class No257_binaryTreePaths {
         }
     }
 
+    /**
+     *
+     */
+    public static List<String> binaryTreePaths_v2(TreeNode root) {
+        List<String> res = new ArrayList<>();
+        Deque<Integer> path = new ArrayDeque<>();
+        backtrack(root, path, res);
+        return res;
+    }
+
+    private static void backtrack(TreeNode node, Deque<Integer> path, List<String> res) {
+        if (node == null) {
+            return;
+        }
+        path.addLast(node.val);
+        if (node.left == null && node.right == null) {
+            res.add(buildPath(path));
+            path.removeLast();
+            return;
+        }
+        backtrack(node.left, path, res);
+        backtrack(node.right, path, res);
+        path.removeLast();
+    }
+
+    private static String buildPath(Deque<Integer> path) {
+        Iterator<Integer> iterator = path.iterator();
+        StringBuilder sb = new StringBuilder();
+        sb.append(iterator.next());
+        while (iterator.hasNext()) {
+            sb.append("->").append(iterator.next());
+        }
+        return sb.toString();
+    }
+
     public static void main(String[] args) {
-        System.out.println();
+        Deque<Integer> path = new ArrayDeque<>();
+        path.push(1);
+        path.push(2);
+        path.push(3);
+        Iterator<Integer> iterator = path.iterator();
+        System.out.println(iterator.next());
     }
 
     private static class TreeNode {
