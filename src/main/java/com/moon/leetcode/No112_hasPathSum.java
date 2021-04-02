@@ -46,7 +46,7 @@ public class No112_hasPathSum {
     }
 
     /**
-     * 递归
+     * 迭代
      */
     public boolean hasPathSum_v2(TreeNode root, int targetSum) {
         if (root == null) {
@@ -70,13 +70,32 @@ public class No112_hasPathSum {
         return false;
     }
 
-    class Helper {
+    private static class Helper {
         TreeNode node;
         int val;
 
         public Helper(TreeNode node, int val) {
             this.node = node;
             this.val = val;
+        }
+    }
+
+    private static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
         }
     }
 }

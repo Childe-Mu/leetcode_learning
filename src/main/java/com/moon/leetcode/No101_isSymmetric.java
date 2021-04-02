@@ -1,7 +1,6 @@
 package com.moon.leetcode;
 
 
-import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -98,7 +97,7 @@ public class No101_isSymmetric {
 
     }
 
-    static class TreeNode {
+    private static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;

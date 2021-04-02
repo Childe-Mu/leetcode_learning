@@ -75,7 +75,7 @@ public class No100_isSameTree {
         }
     }
 
-    class TreeNode {
+    private static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;

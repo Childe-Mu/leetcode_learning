@@ -76,7 +76,7 @@ public class No783_minDiffInBST {
         dfs(node.right);
     }
 
-    class TreeNode {
+    private static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;

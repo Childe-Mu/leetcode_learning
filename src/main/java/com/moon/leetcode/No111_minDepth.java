@@ -77,7 +77,7 @@ public class No111_minDepth {
         return minDept;
     }
 
-    public class TreeNode {
+    private static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;

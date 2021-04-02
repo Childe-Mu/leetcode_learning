@@ -76,7 +76,7 @@ public class Interview_17_12_convertBiNode {
         convert(node.right);
     }
 
-    class TreeNode {
+    private static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
