@@ -46,9 +46,26 @@ public class No26_removeDuplicates {
         return index + 1;
     }
 
+    public static int removeDuplicates_v2(int[] nums) {
+        int n = nums.length;
+        if (n <= 1) {
+            return 1;
+        }
+        int index = 1;
+        int i = 1;
+        while (i < n) {
+            if (nums[index - 1] != nums[i]) {
+                nums[index] = nums[i];
+                index++;
+            }
+            i++;
+        }
+        return index;
+    }
+
     public static void main(String[] args) {
         int[] nums = new int[]{0, 0, 1, 1, 1, 2, 2, 3, 3, 4};
-        int len = removeDuplicates(nums);
+        int len = removeDuplicates_v2(nums);
         System.out.println(Arrays.toString(nums));
         for (int i = 0; i < len; i++) {
             System.out.println(nums[i]);
