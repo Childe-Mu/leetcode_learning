@@ -44,18 +44,37 @@ public class No96_numTrees {
         return g[n];
     }
 
+    private static int traverse(int n, int[] mem) {
+        if (mem[n] != 0) {
+            return mem[n];
+        }
+        if (n == 0 || n == 1) {
+            mem[n] = 1;
+            return mem[n];
+        }
+        for (int i = 1; i <= n; i++) {
+            mem[n] += traverse(i - 1, mem) * traverse(n - i, mem);
+        }
+        return mem[n];
+    }
+
     /**
      * 暴力 递归
      */
     public int numTrees_v2(int n) {
-        return traverse(1, 2, n);
+        if (n == 0 || n == 1) return 1;
+        int res = 0;
+        for (int i = 1; i <= n; i++) {
+            res += numTrees_v2(i - 1) * numTrees_v2(n - i);
+        }
+        return res;
     }
 
-    private int traverse(int root, int start, int end) {
-        if (root == end) {
-            return 1;
-        }
-//        traverse(root+1, )
-        return 0;
+    /**
+     * 记忆化搜索
+     */
+    public int numTrees_v3(int n) {
+        int[] mem = new int[n + 1];
+        return traverse(n, mem);
     }
 }
