@@ -16,37 +16,37 @@ package com.moon.leetcode;
  */
 public class No278_firstBadVersion {
     public static void main(String[] args) {
-        Solution solution = new Solution();
-        System.out.println(solution.firstBadVersion(5));
+        System.out.println(new No278_firstBadVersion().firstBadVersion_v2(5));
     }
 
-}
+    /**
+     * 二分法 1
+     */
+    public int firstBadVersion_v1(int n) {
+        int left = 1, right = n;
+        int result = 0;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (isBadVersion(mid) && !isBadVersion(mid - 1)) {
+                result = mid;
+                break;
+            } else if (!isBadVersion(mid)) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return result;
+    }
 
-class Solution extends VersionControl {
-    // /**
-    //  * 二分法 1
-    //  */
-    // public int firstBadVersion(int n) {
-    //     int left = 1, right = n;
-    //     int result = 0;
-    //     while (left <= right) {
-    //         int mid = left + (right - left) / 2;
-    //         if (isBadVersion(mid) && !isBadVersion(mid - 1)) {
-    //             result = mid;
-    //             break;
-    //         } else if (!isBadVersion(mid)) {
-    //             left = mid + 1;
-    //         } else {
-    //             right = mid - 1;
-    //         }
-    //     }
-    //     return result;
-    // }
+    boolean isBadVersion(int mid) {
+        return mid >= 4;
+    }
 
     /**
      * 二分法 2，利用到了，如果有问题，一定是后面的版本有问题，前面的部分版本没问题，即有序
      */
-    public int firstBadVersion(int n) {
+    public int firstBadVersion_v2(int n) {
         int left = 1;
         int right = n;
         while (left < right) {
@@ -58,11 +58,5 @@ class Solution extends VersionControl {
             }
         }
         return left;
-    }
-}
-
-class VersionControl {
-    boolean isBadVersion(int mid) {
-        return mid >= 4;
     }
 }
