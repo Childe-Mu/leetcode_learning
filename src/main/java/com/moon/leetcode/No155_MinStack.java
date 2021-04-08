@@ -32,97 +32,80 @@ import java.util.Stack;
  * pop、top 和 getMin 操作总是在 非空栈 上调用。<br/>
  */
 public class No155_MinStack {
-    public static void main(String[] args) {
-        MinStack minStack = new MinStack();
-        minStack.push(-2);
-        minStack.push(0);
-        minStack.push(-3);
-        System.out.println(minStack.getMin());
-        minStack.pop();
-        System.out.println(minStack.top());
-        System.out.println(minStack.getMin());
-
-        // Stack stack = new Stack();
-        // stack.push(1);
-        // System.out.println(stack.peek());
-        // stack.pop();
-        // System.out.println(stack.peek());
-    }
-}
-
-/**
- * 在对象里存储对应的最小值
- */
-class MinStack {
-    /**
-     * 存放元素
-     */
-    private Stack<Element> stack;
 
     /**
-     * initialize your data structure here.
+     * 在对象里存储对应的最小值
      */
-    public MinStack() {
-        this.stack = new Stack<>();
-        // Element element = new Element(null, Integer.MAX_VALUE);
-        // stack.push(element);
-    }
+    private static class MinStack {
+        /**
+         * 存放元素
+         */
+        private Stack<Element> stack;
 
-    public void push(int x) {
-        Element element;
-        if (this.stack.size() == 0) {
-            element = new Element(x,x);
-        } else {
-            element = new Element(x,null);
-            x = Math.min(x, this.stack.peek().getMinValue());
-            element.setMinValue(x);
+        /**
+         * initialize your data structure here.
+         */
+        public MinStack() {
+            this.stack = new Stack<>();
+            // Element element = new Element(null, Integer.MAX_VALUE);
+            // stack.push(element);
         }
-        this.stack.push(element);
+
+        public void push(int x) {
+            Element element;
+            if (this.stack.size() == 0) {
+                element = new Element(x, x);
+            } else {
+                element = new Element(x, null);
+                x = Math.min(x, this.stack.peek().getMinValue());
+                element.setMinValue(x);
+            }
+            this.stack.push(element);
+        }
+
+        public void pop() {
+            this.stack.pop();
+        }
+
+        public int top() {
+            return this.stack.peek().getValue();
+        }
+
+        public int getMin() {
+            return this.stack.peek().getMinValue();
+        }
     }
 
-    public void pop() {
-        this.stack.pop();
+    private static class Element {
+        private Integer value;
+        private Integer minValue;
+
+        public Element(Integer value, Integer minValue) {
+            this.value = value;
+            this.minValue = minValue;
+        }
+
+        public Integer getValue() {
+            return value;
+        }
+
+        public void setValue(Integer value) {
+            this.value = value;
+        }
+
+        public Integer getMinValue() {
+            return minValue;
+        }
+
+        public void setMinValue(Integer minValue) {
+            this.minValue = minValue;
+        }
     }
 
-    public int top() {
-        return this.stack.peek().getValue();
-    }
-
-    public int getMin() {
-        return this.stack.peek().getMinValue();
-    }
-}
-
-class Element {
-    private Integer value;
-    private Integer minValue;
-
-    public Integer getValue() {
-        return value;
-    }
-
-    public Element(Integer value, Integer minValue) {
-        this.value = value;
-        this.minValue = minValue;
-    }
-
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
-    public Integer getMinValue() {
-        return minValue;
-    }
-
-    public void setMinValue(Integer minValue) {
-        this.minValue = minValue;
-    }
-}
-
-// /**
+    // /**
 //  * 辅助栈，辅助栈和主栈一一对应，主栈保存数据，辅助栈保存对应的最小值
 //  */
-// class MinStack {
+// private static class MinStack {
 //     /**
 //      * 存放元素
 //      */
@@ -160,3 +143,21 @@ class Element {
 //         return this.minStack.peek();
 //     }
 // }
+
+    public static void main(String[] args) {
+        MinStack minStack = new MinStack();
+        minStack.push(-2);
+        minStack.push(0);
+        minStack.push(-3);
+        System.out.println(minStack.getMin());
+        minStack.pop();
+        System.out.println(minStack.top());
+        System.out.println(minStack.getMin());
+
+        // Stack stack = new Stack();
+        // stack.push(1);
+        // System.out.println(stack.peek());
+        // stack.pop();
+        // System.out.println(stack.peek());
+    }
+}
