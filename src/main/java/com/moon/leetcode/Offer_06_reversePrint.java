@@ -1,7 +1,10 @@
 package com.moon.leetcode;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
+import java.util.List;
 
 // 剑指 Offer 06. 从尾到头打印链表
 //
@@ -18,7 +21,14 @@ import java.util.Deque;
 // Related Topics 链表
 // 👍 130 👎 0
 public class Offer_06_reversePrint {
-    public int[] reversePrint(ListNode head) {
+    public static void main(String[] args) {
+        ListNode head = new ListNode(2);
+        head.next = new ListNode(3);
+        head.next.next = new ListNode(1);
+        System.out.println(Arrays.toString(new Offer_06_reversePrint().reversePrint_v2(head)));
+    }
+
+    public int[] reversePrint_v1(ListNode head) {
         ListNode node = head;
         Deque<Integer> stack = new ArrayDeque<>();
         while (node.next != null) {
@@ -28,12 +38,31 @@ public class Offer_06_reversePrint {
         return stack.stream().mapToInt(p -> p).toArray();
     }
 
+    public int[] reversePrint_v2(ListNode head) {
+        List<Integer> res = new ArrayList<>();
+        traverse(head, res);
+        return res.stream().mapToInt(p -> p).toArray();
+    }
+
+    private void traverse(ListNode node, List<Integer> res) {
+        if (node == null) {
+            return;
+        }
+        traverse(node.next, res);
+        res.add(node.val);
+    }
+
     private static class ListNode {
         int val;
         ListNode next;
 
         ListNode(int x) {
-            val = x;
+            this.val = x;
+        }
+
+        ListNode(int x, ListNode next) {
+            this.val = x;
+            this.next = next;
         }
     }
 }
