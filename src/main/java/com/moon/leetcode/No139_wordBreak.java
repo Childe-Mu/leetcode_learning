@@ -36,10 +36,6 @@ import java.util.Set;
 // Related Topics 动态规划
 // 👍 925 👎 0
 public class No139_wordBreak {
-    public static void main(String[] args) {
-        System.out.println(new No139_wordBreak().wordBreak_v1("catsanddog", Lists.newArrayList("cats", "dog", "sand", "and", "cat")));
-    }
-
     public boolean wordBreak_v1(String s, List<String> wordDict) {
         Set<String> set = new HashSet<>(wordDict);
         return traverse(s, set);
@@ -75,17 +71,21 @@ public class No139_wordBreak {
         return f[n];
     }
 
+    public static void main(String[] args) {
+        System.out.println(new No139_wordBreak().wordBreak_v1("catsanddog", Lists.newArrayList("cats", "dog", "sand", "and", "cat")));
+    }
+
     public boolean wordBreak_v3(String s, List<String> wordDict) {
-        int n = s.length(), minLen = Integer.MAX_VALUE;
+        int n = s.length(), maxLen = 0;
         Set<String> set = new HashSet<>();
         for (String str : wordDict) {
             set.add(str);
-            minLen = Math.min(minLen, str.length());
+            maxLen = Math.max(maxLen, str.length());
         }
         boolean[] f = new boolean[n + 1];
         f[0] = true;
         for (int i = 1; i <= n; i++) {
-            for (int j = 0; j <= i - minLen; j++) {
+            for (int j = i - 1; j >= 0 && j >= i - maxLen; j--) {
                 if (f[j] && set.contains(s.substring(j, i))) {
                     f[i] = true;
                     break;
