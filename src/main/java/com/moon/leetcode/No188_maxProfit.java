@@ -34,22 +34,33 @@ import java.util.Arrays;
 // 👍 481 👎 0
 public class No188_maxProfit {
     public static void main(String[] args) {
-        System.out.println(new No188_maxProfit().maxProfit(2, new int[]{2, 4, 1}));
+        System.out.println(new No188_maxProfit().maxProfit(2, new int[]{3, 1, 2, 1, 2}));
     }
 
     public int maxProfit(int k, int[] prices) {
-        if (prices.length == 0 || k == 0) {
+        int n = prices.length;
+        // k最大可以是100，但是如果n/2小于100，实际上做100次买入卖出，是没有意义的，（只能在同一天买入卖出）
+        k = Math.min(k, n / 2);
+        if (n == 0 || k == 0) {
             return 0;
         }
         int[] buy = new int[k];
         int[] sell = new int[k];
+        // 初始化，第1天进行k次买入卖出操作
         Arrays.fill(buy, -prices[0]);
         for (int price : prices) {
             for (int i = 0; i < k; i++) {
-                int curBuy = Math.max(buy[i], (i > 0 ? sell[i - 1] : 0) - price);
-                int curSell = Math.max(sell[i], buy[i] + price);
-                buy[i] = curBuy;
-                sell[i] = curSell;
+                // 第i次买入后的利润，取决于，
+                // 1.今天之前第i次买入已经操作了，那就继续持有，
+                // 2.今天之前第i次没有买入，那就买入今天的，今天的买入后的利润，是在第i-1次卖出后的利润上计算的
+                // 特别的，如果是第一天，那么利润为0
+                buy[i] = Math.max(buy[i], (i > 0 ? sell[i - 1] : 0) - price);
+                // 第i次卖出后的利润，取决于，
+                // 1.今天之前第i次卖出已经操作了，那就不操作，利润还是原来的，
+                // 2.今天之前第i次没有卖出，那就今天卖出，利润为第i次买入以后的利润，加上今天的价格
+                sell[i] = Math.max(sell[i], buy[i] + price);
+
+                // 注意，buy操作一定在sell操作之前，否则，逻辑上就讲不通，虽然因为取大值操作，导致结果是正确的
             }
         }
         return sell[k - 1];
