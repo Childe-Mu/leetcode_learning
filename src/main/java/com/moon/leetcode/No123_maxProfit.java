@@ -43,7 +43,7 @@ package com.moon.leetcode;
 // 👍 740 👎 0
 public class No123_maxProfit {
     public static void main(String[] args) {
-        System.out.println(new No123_maxProfit().maxProfit_v1(new int[]{1, 2, 4, 2, 5, 7, 2, 4, 9, 0}));
+        System.out.println(new No123_maxProfit().maxProfit_v1(new int[]{3, 3, 5, 0, 0, 3, 1, 4}));
     }
 
     public int maxProfit_v1(int[] prices) {
