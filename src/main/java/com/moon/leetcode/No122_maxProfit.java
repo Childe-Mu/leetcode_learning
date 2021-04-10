@@ -1,7 +1,5 @@
 package com.moon.leetcode;
 
-import java.util.Arrays;
-
 /**
  * 122. 买卖股票的最佳时机 II <br/>
  * 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。<br/>
@@ -31,22 +29,22 @@ import java.util.Arrays;
  * 0 <= prices[i] <= 10 ^ 4<br/>
  */
 public class No122_maxProfit {
-    // /**
-    //  * 一次遍历（解不含手续费最简单）
-    //  * 连续交易，中心思想就是，当前股票价格大于前一天，则交易一笔，
-    //  *
-    //  * 时间复杂度：O(n)，遍历一次。
-    //  * 空间复杂度：O(1)，需要常量的空间。
-    //  */
-    // public static int maxProfit(int[] prices) {
-    //     int maxProfit = 0;
-    //     for (int i = 0; i < prices.length - 1; i++) {
-    //         if (prices[i+1] > prices[i]) {
-    //             maxProfit += prices[i+1] - prices[i];
-    //         }
-    //     }
-    //     return maxProfit;
-    // }
+    /**
+     * 一次遍历（解不含手续费最简单）
+     * 连续交易，中心思想就是，当前股票价格大于前一天，则交易一笔，
+     * <p>
+     * 时间复杂度：O(n)，遍历一次。
+     * 空间复杂度：O(1)，需要常量的空间。
+     */
+    public static int maxProfit_v1(int[] prices) {
+        int maxProfit = 0;
+        for (int i = 0; i < prices.length - 1; i++) {
+            if (prices[i + 1] > prices[i]) {
+                maxProfit += prices[i + 1] - prices[i];
+            }
+        }
+        return maxProfit;
+    }
 
     /**
      * 两层遍历
@@ -55,7 +53,7 @@ public class No122_maxProfit {
      * 时间复杂度：O(n)。遍历一次。
      * 空间复杂度：O(1)。需要常量的空间。
      */
-    public static int maxProfit(int[] prices) {
+    public static int maxProfit_v2(int[] prices) {
         int maxProfit = 0;
         int valley;
         int peak;
@@ -76,8 +74,19 @@ public class No122_maxProfit {
         return maxProfit;
     }
 
-    // public static void main(String[] args) {
-    //     int[] prices = new int[]{7, 1, 5, 3, 6, 4};
-    //     System.out.println(maxProfit(prices));
-    // }
+    public static int maxProfit_v3(int[] prices) {
+        int clean = 10000;
+        int hold = 10000 - prices[0];
+        for (int price : prices) {
+            int curHold = Math.max(hold, clean - price);
+            clean = Math.max(clean, hold + price);
+            hold = curHold;
+        }
+        return clean - 10000;
+    }
+
+    public static void main(String[] args) {
+        int[] prices = new int[]{7, 1, 5, 3, 6, 4};
+        System.out.println(maxProfit_v3(prices));
+    }
 }
