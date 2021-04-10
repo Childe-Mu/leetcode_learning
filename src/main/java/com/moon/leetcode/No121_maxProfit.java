@@ -28,25 +28,7 @@ package com.moon.leetcode;
  * 0 <= prices[i] <= 104
  */
 public class No121_maxProfit {
-    public class Solution {
-        /**
-         * 暴力
-         */
-        public int maxProfit_v1(int[] prices) {
-            int maxprofit = 0;
-            for (int i = 0; i < prices.length - 1; i++) {
-                for (int j = i + 1; j < prices.length; j++) {
-                    int profit = prices[j] - prices[i];
-                    if (profit > maxprofit) {
-                        maxprofit = profit;
-                    }
-                }
-            }
-            return maxprofit;
-        }
-    }
-
-    public static int maxProfit(int[] prices) {
+    public static int maxProfit_v2(int[] prices) {
         int minPrice = Integer.MAX_VALUE;
         int maxProfit = 0;
         for (int price : prices) {
@@ -59,7 +41,50 @@ public class No121_maxProfit {
         return maxProfit;
     }
 
+    public static int maxProfit_v3(int[] prices) {
+        int len = prices.length;
+        // 假设初始资金为10000元
+        // 第一天如果买入持股，则身上剩余的钱为 10000 - 第一天股票价格
+        int hold = 10000 - prices[0];
+        // 第一天如果清仓不持股，则身上剩余的钱为10000
+        int clean = 10000;
+        // 从第 2 天开始遍历
+        for (int i = 1; i < len; i++) {
+            // 今天清仓（手上不持股，全部换成钱），
+            // 来源于：
+            // 1.昨天如果已经清仓了，那今天的资金就是昨天的，
+            // 2.如果昨天还在持股（可能昨天买入，也可能更早之前，不管），今天清仓卖出，
+            // 比较1,2的金额，取最大的，说明赚的多
+            int curClean = Math.max(clean, hold + prices[i]);
+            // 今天买入，或者继续持股
+            // 来源于：
+            // 1.昨天如果已经在持股了，那今天继续持股，资金就是昨天持股后剩下的，
+            // 2.如果昨天没有持股，那今天买入，（因为只能买卖一次），所以认为今天手里的资金还是10000，减去今天的价格，就是剩下的钱
+            // 比较1,2的金额，取最大的，说明但是买入的价格更便宜，更赚
+            hold = Math.max(hold, 10000 - prices[i]);
+            clean = curClean;
+        }
+        // 最后一天清仓后，减去起始资金
+        return clean - 10000;
+    }
+
     public static void main(String[] args) {
-        System.out.println(maxProfit(new int[]{7, 1, 5, 3, 6, 4}));
+        System.out.println(maxProfit_v3(new int[]{7, 6, 5, 4, 3}));
+    }
+
+    /**
+     * 暴力
+     */
+    public int maxProfit_v1(int[] prices) {
+        int maxprofit = 0;
+        for (int i = 0; i < prices.length - 1; i++) {
+            for (int j = i + 1; j < prices.length; j++) {
+                int profit = prices[j] - prices[i];
+                if (profit > maxprofit) {
+                    maxprofit = profit;
+                }
+            }
+        }
+        return maxprofit;
     }
 }
