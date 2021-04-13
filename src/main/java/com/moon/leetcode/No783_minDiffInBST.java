@@ -59,7 +59,7 @@ public class No783_minDiffInBST {
      */
     Integer prev, ans;
 
-    public int minDiffInBST(TreeNode root) {
+    public int minDiffInBST_v1(TreeNode root) {
         prev = null;
         ans = Integer.MAX_VALUE;
         dfs(root);
@@ -67,11 +67,13 @@ public class No783_minDiffInBST {
     }
 
     public void dfs(TreeNode node) {
-        if (node == null)
+        if (node == null) {
             return;
+        }
         dfs(node.left);
-        if (prev != null)
+        if (prev != null) {
             ans = Math.min(ans, node.val - prev);
+        }
         prev = node.val;
         dfs(node.right);
     }
