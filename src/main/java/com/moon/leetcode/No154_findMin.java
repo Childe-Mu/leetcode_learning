@@ -39,7 +39,7 @@ package com.moon.leetcode;
 // 👍 286 👎 0
 public class No154_findMin {
     public static void main(String[] args) {
-        System.out.println(new No154_findMin().findMin(new int[]{2, 2, 2, 0, 1, 2}));
+        System.out.println(new No154_findMin().findMin(new int[]{1, 2, 3, 4, 5, 6}));
     }
 
     public int findMin(int[] nums) {
