@@ -70,21 +70,6 @@ public class No213_rob {
         return Math.max(traverse(nums, n - 1, 0, mem1), traverse(nums, n, 1, mem2));
     }
 
-//    private int traverse(int[] nums, int n, int i, int[] mem) {
-//        if (i >= n) {
-//            return 0;
-//        }
-//        if (!mem[(i - 1 + n) % n] && !mem[i] && !mem[(i + 1 + n) % n]) {
-//            mem[i] = true;
-//            int rob = traverse(nums, n, i + 2, mem) + nums[i];
-//            mem[i] = false;
-//            int pass = traverse(nums, n, i + 1, mem);
-//            return Math.max(rob, pass);
-//        } else {
-//            return traverse(nums, n, i + 1, mem);
-//        }
-//    }
-
     private int traverse(int[] nums, int n, int i, Integer[] mem) {
         if (i >= n) {
             return 0;
