@@ -30,8 +30,8 @@ package com.moon.leetcode;
 //-binary-search-tree/
 // Related Topics 树
 // 👍 122 👎 0
-public class Offer_68_lowestCommonAncestor {
-    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+public class Offer_68_1_lowestCommonAncestor {
+    public TreeNode lowestCommonAncestor_v1(TreeNode root, TreeNode p, TreeNode q) {
         if (p.val > q.val) {
             TreeNode node = p;
             p = q;
@@ -48,6 +48,24 @@ public class Offer_68_lowestCommonAncestor {
         } else {
             return traverse(node.left, p, q);
         }
+    }
+
+    public TreeNode lowestCommonAncestor_v2(TreeNode root, TreeNode p, TreeNode q) {
+        if (p.val > q.val) {
+            TreeNode node = p;
+            p = q;
+            q = node;
+        }
+        while (root != null) {
+            if (p.val <= root.val && root.val <= q.val) {
+                return root;
+            } else if (p.val > root.val) {
+                root = root.right;
+            } else {
+                root = root.left;
+            }
+        }
+        return null;
     }
 
     private static class TreeNode {
