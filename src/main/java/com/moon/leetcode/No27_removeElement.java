@@ -44,16 +44,16 @@ public class No27_removeElement {
     //  * 我们就复制 nums[j] 到 nums[i] 并同时递增两个索引。重复这一过程，直到 j 到达数组的末尾，该数组的新长度为 i。<br/>
     //  * 该解法与 删除排序数组中的重复项 的解法十分相似。<br/>
     //  */
-    // public static int removeElement(int[] nums, int val) {
-    //     int i = 0;
-    //     for (int j = 0; j < nums.length; j++) {
-    //         if (nums[j] != val) {
-    //             nums[i] = nums[j];
-    //             i++;
-    //         }
-    //     }
-    //     return i;
-    // }
+    public static int removeElement_v1(int[] nums, int val) {
+        int i = 0;
+        for (int j = 0; j < nums.length; j++) {
+            if (nums[j] != val) {
+                nums[i] = nums[j];
+                i++;
+            }
+        }
+        return i;
+    }
 
     // /**
     //  * 方法二：双指针 —— 当要删除的元素很少时<br/>
@@ -67,27 +67,27 @@ public class No27_removeElement {
     //  * 这实际上使数组的大小减少了 1。<br/>
     //  * 请注意，被交换的最后一个元素可能是您想要移除的值。但是不要担心，在下一次迭代中，我们仍然会检查这个元素。<br/>
     //  */
-    // public static int removeElement(int[] nums, int val) {
-    //     int i = 0;
-    //     int n = nums.length;
-    //     while (i < n) {
-    //         if (nums[i] == val) {
-    //             nums[i] = nums[n - 1];
-    //             // reduce array size by one
-    //             n--;
-    //         } else {
-    //             i++;
-    //         }
-    //     }
-    //     return n;
-    // }
+    public static int removeElement_v2(int[] nums, int val) {
+        int i = 0;
+        int n = nums.length;
+        while (i < n) {
+            if (nums[i] == val) {
+                nums[i] = nums[n - 1];
+                // reduce array size by one
+                n--;
+            } else {
+                i++;
+            }
+        }
+        return n;
+    }
 
     /**
      * 方法三：双指针<br/>
      * 和方法二类似，但是没有方法二巧妙，但是逻辑更清晰，更容易想到，没有那么脑筋急转弯。
      * 主要思路就是把数组前面值为val的都交换到最后，结果及时有个分界线，前面的全是不为val的，后面的都是为val的。
      */
-    public static int removeElement(int[] nums, int val) {
+    public static int removeElement_v3(int[] nums, int val) {
         if (nums == null || nums.length == 0) {
             return 0;
         }
@@ -117,7 +117,7 @@ public class No27_removeElement {
 
     public static void main(String[] args) {
         int[] nums = new int[]{3, 2, 2, 3};
-        int len = removeElement(nums, 3);
+        int len = removeElement_v3(nums, 3);
         System.out.println(Arrays.toString(nums));
         System.out.println(Arrays.toString(Arrays.copyOfRange(nums, 0, len)));
     }
