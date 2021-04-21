@@ -29,7 +29,7 @@ package com.moon.leetcode;
 // 👍 102 👎 0
 public class Offer_14_2_cuttingRope {
     public static void main(String[] args) {
-        System.out.println(new Offer_14_2_cuttingRope().cuttingRope_v2(120));
+        System.out.println(new Offer_14_2_cuttingRope().cuttingRope_v2(10));
     }
 
     public int cuttingRope_v1(int n) {
@@ -52,17 +52,17 @@ public class Offer_14_2_cuttingRope {
         }
     }
 
-//    public int cuttingRope_v3(int n) {
-//        long[] dp = new long[n + 1];
-//        for (int i = 2; i <= n; i++) {
-//            long curMax = 0;
-//            for (int j = 1; j < i; j++) {
-//                curMax = Math.max(curMax, Math.max((long) j * (i - j), j * dp[i - j]));
-//            }
-//            dp[i] = curMax % 1000000007;
-//        }
-//        return (int) (dp[n] % 1000000007);
-//    }
+    public int cuttingRope_v3(int n) {
+        long[] dp = new long[n + 1];
+        for (int i = 2; i <= n; i++) {
+            long curMax = 0;
+            for (int j = 1; j < i; j++) {
+                curMax = Math.max(curMax, Math.max((long) j * (i - j), j * dp[i - j]));
+            }
+            dp[i] = curMax;
+        }
+        return (int) (dp[n] % 1000000007);
+    }
 
     public int cuttingRope_v2(int n) {
         if (n <= 3) {
@@ -70,11 +70,19 @@ public class Offer_14_2_cuttingRope {
         }
         int b = n % 3, p = 1000000007;
         long rem = 1, x = 3;
-        for (int a = n / 3 - 1; a > 0; a /= 2) {
-            if (a % 2 == 1) {
-                rem = (rem * x) % p;
+//        for (int a = n / 3 - 1; a > 0; a /= 2) {
+//            if (a % 2 == 1) {
+//                rem = (rem * x) % p;
+//            }
+//            x = (x * x) % p;
+//        }
+        int c = n / 3 - 1;
+        while (c > 0) {
+            if ((c & 1) == 1) {
+                rem = rem * x % p;
             }
-            x = (x * x) % p;
+            x = x * x % p;
+            c >>= 1;
         }
         if (b == 0) {
             return (int) (rem * 3 % p);
