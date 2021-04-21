@@ -58,7 +58,7 @@ public class No91_numDecodings {
     int res = 0;
 
     public static void main(String[] args) {
-        System.out.println(new No91_numDecodings().numDecodings_v2("111111111111111111111111111111111111111111111"));
+        System.out.println(new No91_numDecodings().numDecodings_v4("12"));
     }
 
     /**
@@ -136,5 +136,54 @@ public class No91_numDecodings {
             f[i + 1] += set.contains(String.valueOf(chars[i - 1]) + chars[i]) ? f[i - 1] : 0;
         }
         return f[s.length()];
+    }
+
+    public int numDecodings_v4(String s) {
+        char[] chars = s.toCharArray();
+        int n = chars.length;
+        if (chars[0] == '0') {
+            return 0;
+        }
+        int[] f = new int[n + 1];
+        f[0] = 1;
+        f[1] = 1;
+        for (int i = 1; i < n; i++) {
+            int tmp = 0;
+            if (chars[i] != '0') {
+                tmp += f[i];
+            }
+            if (chars[i - 1] == '1' || (chars[i - 1] == '2' && chars[i] <= '6')) {
+                tmp += f[i - 1];
+            }
+            f[i + 1] = tmp;
+        }
+        return f[n];
+    }
+
+    public int numDecodings_v5(String s) {
+        int n = s.length();
+        char[] chars = s.toCharArray();
+        Integer[] mem = new Integer[n];
+        if (chars[0] == '0') {
+            return 0;
+        }
+        return traverse(chars, n, 0, mem);
+    }
+
+    private int traverse(char[] chars, int n, int i, Integer[] mem) {
+        if (i == n) {
+            return 1;
+        }
+        if (mem[i] != null) {
+            return mem[i];
+        }
+        int tmp = 0;
+        if (i + 1 < n && (chars[i] == '1' || (chars[i] == '2' && chars[i + 1] <= '6'))) {
+            tmp = traverse(chars, n, i + 2, mem);
+        }
+        if (chars[i] != '0') {
+            tmp += traverse(chars, n, i + 1, mem);
+        }
+        return mem[i] = tmp;
     }
 }
