@@ -5,10 +5,6 @@ import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
-/**
- * @author yaojia.mu@joymo.tech
- * @date 2021-03-25 20:10:24
- */
 public class E2 {
 
     static FastScanner sc = new FastScanner();
