@@ -41,7 +41,7 @@ package com.moon.leetcode;
 // 👍 59 👎 0
 public class No1486_xorOperation {
     public static void main(String[] args) {
-        System.out.println(new No1486_xorOperation().xorOperation_v2(6, 5));
+        System.out.println(new No1486_xorOperation().xorOperation_v1(6, 5));
     }
 
     public int xorOperation_v1(int n, int start) {
@@ -57,7 +57,9 @@ public class No1486_xorOperation {
         int s = start >> 1;
         int prefix = calc(s - 1) ^ calc(s + n - 1);
         // 利用「奇偶性」计算 ans 中的「最低一位」结果
-        int last = n & start & 1;
+        int mod = start % 2;
+        int last = (n & 1) == 1 ? mod : 0;
+//        int last = n & start & 1;
         return prefix << 1 | last;
     }
 
