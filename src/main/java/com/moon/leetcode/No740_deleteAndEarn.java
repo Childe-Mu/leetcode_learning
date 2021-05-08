@@ -68,39 +68,38 @@ public class No740_deleteAndEarn {
 
     public int deleteAndEarn_v2(int[] nums) {
         int n = nums.length;
-        int ans = 0;
+        int max = 0;
         Arrays.sort(nums);
-        List<Integer> sum = new ArrayList<>();
-        sum.add(nums[0]);
+        List<Integer> sums = new ArrayList<>();
+        sums.add(0);
+        sums.add(nums[0]);
         for (int i = 1; i < n; i++) {
-            int cur = nums[i];
             int pre = nums[i - 1];
-            int size = sum.size();
-            if (cur == pre) {
-                sum.set(size - 1, sum.get(size - 1) + cur);
-            } else if (cur == pre + 1) {
-                sum.add(cur);
+            int cur = nums[i];
+            int size = sums.size();
+            if (pre == cur) {
+                sums.set(size - 1, sums.get(size - 1) + cur);
+            } else if (cur - pre == 1) {
+                sums.add(cur);
             } else {
-                ans += rob(sum);
-                sum.clear();
-                sum.add(cur);
+                max += rob(sums);
+                sums.clear();
+                sums.add(0);
+                sums.add(cur);
             }
         }
-        ans += rob(sum);
-        return ans;
+        return max + rob(sums);
     }
 
     private int rob(List<Integer> sums) {
         int n = sums.size();
-        if (n == 1) {
-            return sums.get(0);
-        }
-        int[] f = new int[n];
-        f[0] = sums.get(0);
-        f[1] = Math.max(sums.get(0), sums.get(1));
+        int pre = sums.get(0);
+        int cur = Math.max(sums.get(0), sums.get(1));
         for (int i = 2; i < n; i++) {
-            f[i] = Math.max(f[i - 1], f[i - 2] + sums.get(i));
+            int tmp = Math.max(pre + sums.get(i), cur);
+            pre = cur;
+            cur = tmp;
         }
-        return f[n - 1];
+        return cur;
     }
 }
