@@ -1,8 +1,8 @@
 package com.moon.leetcode;
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.LinkedList;
 
 /**
  * 503. 下一个更大元素 II
@@ -19,11 +19,11 @@ import java.util.LinkedList;
  * 注意: 输入数组的长度不会超过 10000。
  */
 public class No503_nextGreaterElements {
-    public static int[] nextGreaterElements(int[] nums) {
+    public static int[] nextGreaterElements_v1(int[] nums) {
         int n = nums.length;
         int[] ret = new int[n];
         Arrays.fill(ret, -1);
-        Deque<Integer> stack = new LinkedList<>();
+        Deque<Integer> stack = new ArrayDeque<>();
         for (int i = 0; i < n * 2 - 1; i++) {
             while (!stack.isEmpty() && nums[stack.peek()] < nums[i % n]) {
                 ret[stack.pop()] = nums[i % n];
@@ -34,6 +34,6 @@ public class No503_nextGreaterElements {
     }
 
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(nextGreaterElements(new int[]{1, 0, 2})));
+        System.out.println(Arrays.toString(nextGreaterElements_v1(new int[]{1, 0, 2})));
     }
 }
