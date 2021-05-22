@@ -87,8 +87,59 @@ public class No421_findMaximumXOR {
         return maxXOR;
     }
 
+    public static int findMaximumXOR_v3(int[] nums) {
+        int max = 0;
+        for (int num : nums) {
+            max = Math.max(num, max);
+        }
+        int len = Integer.toBinaryString(max).length();
+        int ans = 0;
+        TrieNode root = new TrieNode();
+        for (int num : nums) {
+            TrieNode pre = root;
+            TrieNode xor = root;
+            int x = 0;
+            for (int i = len - 1; i >= 0; i--) {
+                int key = num >>> i & 1;
+                if (!pre.childNode.containsKey(key)) {
+                    pre.childNode.put(key, new TrieNode());
+                }
+                pre = pre.childNode.get(key);
+                if (xor.childNode.containsKey(key ^ 1)) {
+                    x = x << 1 | 1;
+                    xor = xor.childNode.get(key ^ 1);
+                } else {
+                    x = x << 1;
+                    xor = xor.childNode.get(key);
+                }
+            }
+            ans = Math.max(x, ans);
+        }
+        return ans;
+    }
+
+    public static int findMaximumXOR_v4(int[] nums) {
+        int x = 0;
+        for (int i = 30; i >= 0; i--) {
+            Set<Integer> set = new HashSet<>();
+            for (int num : nums) {
+                set.add(num >> i);
+            }
+            int next = x << 1 | 1;
+            boolean found = false;
+            for (Integer pre : set) {
+                if (set.contains(next ^ pre)) {
+                    found = true;
+                    break;
+                }
+            }
+            x = found ? next : x << 1;
+        }
+        return x;
+    }
+
     public static void main(String[] args) {
-        System.out.println(findMaximumXOR_v2(new int[]{3, 10, 5, 25, 2, 8}));
+        System.out.println(findMaximumXOR_v3(new int[]{3, 10, 5, 25, 2, 8}));
 //        int maxNum = Arrays.stream(new int[]{3, 10, 5, 25, 2, 8}).max().orElse(0);
 //        System.out.println(maxNum);
     }
