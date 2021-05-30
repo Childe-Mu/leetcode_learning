@@ -13,9 +13,7 @@ import java.util.stream.Collectors;
  * @date 2021-05-29 22:33:58
  */
 public class Test1 {
-    public static void main(String[] args) {
-        System.out.println(Arrays.toString(new Test1().getBiggestThree_v1(new int[][]{{3, 4, 5, 1, 3}, {3, 3, 4, 2, 3}, {20, 30, 200, 40, 10}, {1, 5, 5, 4, 1}, {4, 3, 2, 2, 5}})));
-    }
+
 
     public int countGoodSubstrings(String s) {
         Map<Character, Integer> map = new HashMap<>();
@@ -64,31 +62,15 @@ public class Test1 {
             }
         }
         for (int i = 2; i <= limit; i++) {
-            for (int j = 0; j < m; j++) {
-                for (int k = 0; k < n; k++) {
-
+            for (int j = i - 1; j < m - (i - 1); j++) {
+                for (int k = i - 1; k < n - (i - 1); k++) {
                     int s = 0;
-                    int[] t = new int[]{j - i + 1, k + i - 1};
-                    int[] b = new int[]{j + i - 1, k + i - 1};
-                    int[] l = new int[]{j, k};
-                    int[] r = new int[]{j, k + 2 * (i - 1)};
-                    System.out.println(Arrays.toString(t));
-                    System.out.println(Arrays.toString(b));
-                    System.out.println(Arrays.toString(l));
-                    System.out.println(Arrays.toString(r));
-
-                    if (l[0] < 0 || l[1] < 0
-                            || r[0] < 0 || r[1] < 0
-                            || t[0] < 0 || t[1] < 0
-                            || b[0] < 0 || b[1] < 0
-                            || l[0] > m || l[1] > n
-                            || r[0] > m || r[1] > n
-                            || t[0] > m || t[1] > n
-                            || b[0] > m || b[1] > n) {
-                        continue;
-                    }
+                    int[] l = new int[]{j, k - (i - 1)};
+                    int[] r = new int[]{j, k + (i - 1)};
+                    int[] t = new int[]{j - (i - 1), k};
+                    int[] b = new int[]{j + (i - 1), k};
                     for (int h = 0; h < i - 1; h++) {
-                        s += grid[t[0] - h][t[1] + h] + grid[b[0] + h][b[1] - h] + grid[l[0] - h][l[1] + h] + grid[r[0] - h][r[1] - h];
+                        s += grid[t[0] + h][t[1] - h] + grid[b[0] - h][b[1] + h] + grid[l[0] + h][l[1] + h] + grid[r[0] - h][r[1] - h];
                     }
                     list.add(s);
                 }
@@ -131,5 +113,25 @@ public class Test1 {
             sum.remove(sum.first());
         }
         return ans;
+    }
+
+    public int minimumXORSum(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        int m = 1 << n;
+        int[] f = new int[m];
+        Arrays.fill(f, Integer.MAX_VALUE);
+        f[0] = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if ((i & (1 << j)) > 0) {
+                    f[i] = Math.min(f[i], f[i ^ (1 << j)] + (nums1[Integer.bitCount(i) - 1] ^ nums2[j]));
+                }
+            }
+        }
+        return f[m - 1];
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Test1().minimumXORSum(new int[]{1, 0, 3}, new int[]{5, 3, 4}));
     }
 }
