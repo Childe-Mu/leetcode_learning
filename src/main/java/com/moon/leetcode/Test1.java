@@ -124,6 +124,7 @@ public class Test1 {
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if ((i & (1 << j)) > 0) {
+                    System.out.println("i=" + Integer.toBinaryString(i) + "  j=" + j + "  pre=" + (i ^ (1 << j)) + "  nums1[" + (Integer.bitCount(i) - 1) + "]^nums2[" + j + "]");
                     f[i] = Math.min(f[i], f[i ^ (1 << j)] + (nums1[Integer.bitCount(i) - 1] ^ nums2[j]));
                 }
             }
