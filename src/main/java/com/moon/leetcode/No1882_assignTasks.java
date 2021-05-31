@@ -86,7 +86,7 @@ public class No1882_assignTasks {
                 res[i] = index;
                 i++;
             }
-            t++;
+            t = idle.isEmpty() && !busy.isEmpty() ? busy.peek()[0] : t + 1;
         } while (i != n);
         return res;
     }
