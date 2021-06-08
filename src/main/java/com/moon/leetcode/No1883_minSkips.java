@@ -55,7 +55,7 @@ import java.util.Arrays;
 // 👍 16 👎 0
 public class No1883_minSkips {
     public static void main(String[] args) {
-        System.out.println(new No1883_minSkips().minSkips_v2(new int[]{7, 3, 5, 5}, 2, 10));
+        System.out.println(new No1883_minSkips().minSkips_v4(new int[]{7, 3, 5, 5}, 1, 10));
     }
 
     public int minSkips(int[] dist, int speed, int hoursBefore) {
@@ -109,4 +109,59 @@ public class No1883_minSkips {
         }
         return -1;
     }
+
+    public int minSkips_v3(int[] dist, int speed, int hoursBefore) {
+        int n = dist.length;
+        long[][] f = new long[n + 1][n + 1];
+        for (int i = 0; i < n; i++) {
+            f[i + 1][0] = f[i][0] + dist[i] + (dist[i] % speed == 0 ? 0 : speed - dist[i] % speed);
+            f[i + 1][i + 1] = f[i][i] + dist[i];
+        }
+        for (int i = 1; i < n - 1; i++) {
+            for (int j = i; j > 0; j--) {
+                long skip = f[i][j - 1] + dist[i];
+                long rest = f[i][j] + dist[i];
+                long diff = rest % speed == 0 ? 0 : speed - rest % speed;
+                rest += diff;
+                f[i + 1][j] = Math.min(rest, skip);
+            }
+        }
+        for (int i = n - 1; i > 0; i--) {
+            f[n][i] = f[n - 1][i] + dist[n - 1];
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (f[n][i] <= (long) speed * hoursBefore) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+    public int minSkips_v4(int[] dist, int speed, int hoursBefore) {
+        int n = dist.length;
+        double eps = 1e-7;
+        double[][] f = new double[n + 1][n + 1];
+        for (int i = 0; i <= n; i++) {
+            Arrays.fill(f[i], 1e20);
+        }
+        f[0][0] = 0;
+        for (int i = 1; i <= n - 1; i++) {
+            for (int j = 0; j <= i; j++) {
+                f[i][j] = Math.ceil(f[i - 1][j] + (double) dist[i - 1] / speed - eps);
+                if (j >= 1) {
+                    f[i][j] = Math.min(f[i][j], f[i - 1][j - 1] + (double) dist[i - 1] / speed);
+                }
+            }
+        }
+        for (int i = 0; i <= n; i++) {
+            f[n][i] = f[n - 1][i] + (double) dist[n - 1] / speed;
+            if (f[n][i] <= hoursBefore) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }
+
