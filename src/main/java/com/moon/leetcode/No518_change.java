@@ -58,13 +58,11 @@ public class No518_change {
     }
 
     public int change_v2(int amount, int[] coins) {
-        int n = coins.length;
         int[] f = new int[amount + 1];
         f[0] = 1;
-        for (int i = 1; i <= n; i++) {
-            int coin = coins[i - 1];
+        for (int coin : coins) {
             for (int j = coin; j <= amount; j++) {
-                f[j] = f[j] + f[j - coin];
+                f[j] += f[j - coin];
             }
         }
         return f[amount];
