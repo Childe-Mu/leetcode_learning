@@ -31,7 +31,11 @@ package com.moon.leetcode;
 // Related Topics 贪心算法 广度优先搜索 Line Sweep
 // 👍 20 👎 0
 public class No1871_canReach {
-    public boolean canReach(String s, int minJump, int maxJump) {
+    public static void main(String[] args) {
+        System.out.println(new No1871_canReach().canReach_v1("011010", 2, 3));
+    }
+
+    public boolean canReach_v1(String s, int minJump, int maxJump) {
         int n = s.length();
         char[] chars = s.toCharArray();
         if (chars[n - 1] == '1') {
@@ -52,9 +56,5 @@ public class No1871_canReach {
             }
         }
         return f[n - 1];
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new No1871_canReach().canReach("011010", 2, 3));
     }
 }
