@@ -32,7 +32,7 @@ import java.util.Arrays;
 //1 <= grid.length <= 500
 //1 <= grid[i].length <= 500
 //grid[i][j] 仅可能是 "0"～"5"
-public class No1000081_largestArea {
+public class LCS03_largestArea {
     int n, m;
     char[][] chs;
     boolean flag;
@@ -40,7 +40,7 @@ public class No1000081_largestArea {
     int[][] dir = new int[][]{{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
 
     public static void main(String[] args) {
-        System.out.println(new No1000081_largestArea().largestArea(new String[]{"110", "231", "221"}));
+        System.out.println(new LCS03_largestArea().largestArea(new String[]{"110", "231", "221"}));
     }
 
     public int largestArea(String[] grid) {
