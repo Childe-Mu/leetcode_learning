@@ -8,10 +8,7 @@ import java.util.Map;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-/**
- * @author yaojia.mu@joymo.tech
- * @date 2021-05-29 22:33:58
- */
+
 public class Test1 {
 
 
@@ -133,6 +130,6 @@ public class Test1 {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Test1().minimumXORSum(new int[]{1, 0, 3}, new int[]{5, 3, 4}));
+        System.out.println(new Test1().minimumXORSum(new int[]{1, 0}, new int[]{5, 3}));
     }
 }
