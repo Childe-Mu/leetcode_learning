@@ -20,8 +20,7 @@ import java.util.List;
  * 示例：
  * <p>
  * 输入: n = 1
- * 返回: ["1:00", "2:00", "4:00", "8:00", "0:01", "0:02", "0:04", "0:08", "0:16", "
- * 0:32"]
+ * 返回: ["1:00", "2:00", "4:00", "8:00", "0:01", "0:02", "0:04", "0:08", "0:16", "0:32"]
  * <p>
  * 提示：
  * <p>
@@ -32,9 +31,60 @@ import java.util.List;
  */
 @Slf4j
 public class No401_readBinaryWatch {
+    List<String> res = new ArrayList<>();
+    int m = 0b111111;
+
     public static void main(String[] args) {
-        System.out.println(JSON.toJSONString(new No401_readBinaryWatch().readBinaryWatch(3)));
+        System.out.println(JSON.toJSONString(new No401_readBinaryWatch().readBinaryWatch_v1(9)));
     }
+
+    public List<String> readBinaryWatch_v1(int turnedOn) {
+        dfs(turnedOn, 0, 0, 0);
+        return res;
+    }
+
+    private void dfs(int n, int depth, int index, int path) {
+        if (depth == n) {
+            int hour = path >> 6;
+            int minuter = path & m;
+            if (hour < 12 && minuter < 60) {
+                res.add(String.format("%d:%02d", hour, minuter));
+            }
+            return;
+        }
+        for (int i = index; i < 10; i++) {
+            if ((path >> i & 1) == 1) {
+                continue;
+            }
+            path = path | 1 << i;
+            dfs(n, depth + 1, i + 1, path);
+            path = path ^ 1 << i;
+        }
+    }
+
+    public List<String> readBinaryWatch_v2(int turnedOn) {
+        List<String> ans = new ArrayList<>();
+        for (int h = 0; h < 12; ++h) {
+            for (int m = 0; m < 60; ++m) {
+                if (Integer.bitCount(h) + Integer.bitCount(m) == turnedOn) {
+                    ans.add(String.format("%d:%02d", h, m));
+                }
+            }
+        }
+        return ans;
+    }
+
+    public List<String> readBinaryWatch_v3(int turnedOn) {
+        List<String> ans = new ArrayList<>();
+        for (int i = 0; i < 1024; ++i) {
+            int h = i >> 6, m = i & 63; // 用位运算取出高 4 位和低 6 位
+            if (h < 12 && m < 60 && Integer.bitCount(i) == turnedOn) {
+                ans.add(String.format("%d:%02d", h, m));
+            }
+        }
+        return ans;
+    }
+
 
     public List<String> readBinaryWatch(int num) {
         List<String> res = new ArrayList<>();
