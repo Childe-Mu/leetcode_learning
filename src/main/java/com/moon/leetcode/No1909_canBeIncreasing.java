@@ -48,7 +48,7 @@ package com.moon.leetcode;
 // 👍 6 👎 0
 public class No1909_canBeIncreasing {
     public static void main(String[] args) {
-        System.out.println(new No1909_canBeIncreasing().canBeIncreasing_v2(new int[]{1, 1, 1}));
+        System.out.println(new No1909_canBeIncreasing().canBeIncreasing_v2(new int[]{1, 2, 3}));
     }
 
     public boolean canBeIncreasing(int[] nums) {
@@ -81,12 +81,17 @@ public class No1909_canBeIncreasing {
     public boolean canBeIncreasing_v2(int[] nums) {
         int n = nums.length;
         int[] jump = new int[2];
+        boolean f = true;
         for (int i = 1; i < n; i++) {
             if (nums[i - 1] >= nums[i]) {
                 jump[0] = i - 1;
                 jump[1] = i;
+                f = false;
                 break;
             }
+        }
+        if (f) {
+            return true;
         }
         for (int i : jump) {
             boolean ans = true;

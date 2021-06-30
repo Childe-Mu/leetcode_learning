@@ -78,7 +78,7 @@ public class No28_strStr {
     /**
      * 双指针-优化 - 线性时间复杂度
      */
-    public static int strStr(String haystack, String needle) {
+    public static int strStr_v4(String haystack, String needle) {
         int m = haystack.length(), n = needle.length();
         if (n == 0) return 0;
         for (int i = 0; i <= m - n; i++) {
@@ -94,7 +94,36 @@ public class No28_strStr {
         return -1;
     }
 
+    public static int strStr_v5(String haystack, String needle) {
+        int n = haystack.length(), m = needle.length();
+        if (m == 0) {
+            return 0;
+        }
+        int[] pi = new int[m];
+        for (int i = 1, j = 0; i < m; i++) {
+            while (j > 0 && needle.charAt(i) != needle.charAt(j)) {
+                j = pi[j - 1];
+            }
+            if (needle.charAt(i) == needle.charAt(j)) {
+                j++;
+            }
+            pi[i] = j;
+        }
+        for (int i = 0, j = 0; i < n; i++) {
+            while (j > 0 && haystack.charAt(i) != needle.charAt(j)) {
+                j = pi[j - 1];
+            }
+            if (haystack.charAt(i) == needle.charAt(j)) {
+                j++;
+            }
+            if (j == m) {
+                return i - m + 1;
+            }
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
-        System.out.println(strStr("mississippi", "ppi"));
+        System.out.println(strStr_v4("mississippi", "ppi"));
     }
 }
