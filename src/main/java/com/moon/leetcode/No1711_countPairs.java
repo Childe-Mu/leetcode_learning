@@ -75,4 +75,5 @@ public class No1711_countPairs {
         }
         return ans;
     }
+
 }
