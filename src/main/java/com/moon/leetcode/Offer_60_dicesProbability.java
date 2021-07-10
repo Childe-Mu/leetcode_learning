@@ -25,7 +25,11 @@ import java.util.Arrays;
 // Related Topics 数学 动态规划 概率与统计
 // 👍 259 👎 0
 public class Offer_60_dicesProbability {
-    public double[] dicesProbability(int n) {
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString(new Offer_60_dicesProbability().dicesProbability_v2(2)));
+    }
+
+    public double[] dicesProbability_v1(int n) {
         double[] dp = new double[6];
         Arrays.fill(dp, 1.0 / 6.0);
         for (int i = 2; i <= n; i++) {
@@ -38,5 +42,26 @@ public class Offer_60_dicesProbability {
             dp = tmp;
         }
         return dp;
+    }
+
+    public double[] dicesProbability_v2(int n) {
+        double p = (double) 1 / 6;
+        double[] res = new double[n * 6 + 1];
+        double[] tmp = new double[n * 6 + 1];
+        Arrays.fill(res, 1, 7, p);
+        for (int i = 2; i <= n; i++) {
+            for (int j = i * 6; j >= i; j--) {
+                for (int k = 1; k <= 6; k++) {
+                    if (i - 1 <= j - k && j - k <= (i - 1) * 6) {
+                        tmp[j] += res[j - k] * p;
+                    }
+                }
+            }
+            double[] t = tmp;
+            tmp = res;
+            res = t;
+            Arrays.fill(tmp, 0);
+        }
+        return Arrays.copyOfRange(res, n, n * 6 + 1);
     }
 }
