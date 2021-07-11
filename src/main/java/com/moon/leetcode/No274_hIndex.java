@@ -68,6 +68,7 @@ public class No274_hIndex {
                 return i;
             }
         }
+
         return 0;
     }
 }
