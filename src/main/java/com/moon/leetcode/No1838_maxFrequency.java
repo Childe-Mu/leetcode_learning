@@ -82,4 +82,53 @@ public class No1838_maxFrequency {
         }
         return max;
     }
+
+    public int maxFrequency_v3(int[] nums, int k) {
+        int ans = 0;
+        int n = nums.length;
+        int[] sum = new int[n + 1];
+        for (int i = 0; i < n; i++) {
+            sum[i + 1] = sum[i] + nums[i];
+        }
+        int i = 0;
+        int j = 0;
+        while (i < n) {
+            while (i < n && nums[i] * (i + 1 - j) - (sum[i + 1] - sum[j]) <= k) {
+                ans = Math.max(i - j + 1, ans);
+                i++;
+            }
+            while (i < n && j <= i && nums[i] * (i + 1 - j) - (sum[i + 1] - sum[j]) > k) {
+                j++;
+            }
+        }
+        return ans;
+    }
+
+    public int maxFrequency_v4(int[] nums, int k) {
+        int[] count = new int[100001];
+        for (int num : nums) {
+            count[num]++;
+        }
+        int index = 0;
+        for (int i = 0; i < count.length; i++) {
+            while (count[i] > 0) {
+                nums[index++] = i;
+                count[i]--;
+            }
+        }
+        int n = nums.length;
+        long total = 0;
+        int l = 0, res = 1;
+        for (int r = 1; r < n; ++r) {
+            total += (long) (nums[r] - nums[r - 1]) * (r - l);
+            while (total > k) {
+                total -= nums[r] - nums[l];
+                ++l;
+            }
+            res = Math.max(res, r - l + 1);
+        }
+        return res;
+    }
+
+
 }
