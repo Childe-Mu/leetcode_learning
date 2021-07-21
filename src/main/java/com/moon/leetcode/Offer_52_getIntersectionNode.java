@@ -81,6 +81,18 @@ public class Offer_52_getIntersectionNode {
         return count < 2 ? slow : null;
     }
 
+    public ListNode getIntersectionNode_v3(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+        ListNode pA = headA, pB = headB;
+        while (pA != pB) {
+            pA = pA == null ? headB : pA.next;
+            pB = pB == null ? headA : pB.next;
+        }
+        return pA;
+    }
+
     private static class ListNode {
         int val;
         ListNode next;
