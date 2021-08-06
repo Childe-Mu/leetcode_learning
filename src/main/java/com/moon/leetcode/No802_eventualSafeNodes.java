@@ -1,7 +1,11 @@
 package com.moon.leetcode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
 // 802. 找到最终的安全状态
 //
@@ -78,5 +82,38 @@ public class No802_eventualSafeNodes {
         return true;
     }
 
+    public List<Integer> eventualSafeNodes_v2(int[][] graph) {
+        List<Integer> res = new ArrayList<>();
+        int n = graph.length;
+        Map<Integer, List<Integer>> reverse = new HashMap<>();
+        int[] inDegree = new int[n];
+        for (int i = 0; i < n; i++) {
+            for (int v : graph[i]) {
+                reverse.computeIfAbsent(v, o -> new ArrayList<>()).add(i);
+            }
+            inDegree[i] = graph[i].length;
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            if (inDegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        while (!queue.isEmpty()) {
+            Integer poll = queue.poll();
+            List<Integer> list = reverse.get(poll);
+            for (Integer i : list) {
+                if (--inDegree[i] == 0) {
+                    queue.offer(i);
+                }
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            if (inDegree[i] == 0) {
+                res.add(i);
+            }
+        }
+        return res;
+    }
 
 }
