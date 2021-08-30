@@ -1,6 +1,8 @@
 package com.moon.leetcode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
@@ -95,6 +97,69 @@ public class No528_pickIndex {
             int r = random.nextInt(sum) + 1;
             Map.Entry<Integer, Integer> entry = map.ceilingEntry(r);
             return entry.getValue();
+        }
+    }
+
+    class Solution_v2 {
+        int[] sum;
+        Random random;
+
+        public Solution_v2(int[] w) {
+            random = new Random();
+            int n = w.length;
+            sum = new int[n + 1];
+            for (int i = 1; i <= n; i++) sum[i] = sum[i - 1] + w[i - 1];
+        }
+
+        public int pickIndex() {
+            int n = sum.length;
+            int t = random.nextInt(sum[n - 1]) + 1;
+            int l = 1, r = n - 1;
+            while (l < r) {
+                int mid = l + r >> 1;
+                if (sum[mid] >= t) r = mid;
+                else l = mid + 1;
+            }
+            return r - 1;
+        }
+    }
+
+    class Solution_v3 {
+        // 桶编号 / 桶内编号 / 总数
+        int bid, iid, tot;
+        List<int[]> list = new ArrayList<>();
+
+        public Solution_v3(int[] w) {
+            int n = w.length;
+            double sum = 0, min = 1e9;
+            for (int i : w) {
+                sum += i;
+                min = Math.min(min, i);
+            }
+            double minv = min / sum;
+            int k = 1;
+            while (minv * k < 1) k *= 10;
+            for (int i = 0; i < n; i++) {
+                int cnt = (int) (w[i] / sum * k);
+                list.add(new int[]{i, cnt});
+                tot += cnt;
+            }
+        }
+
+        public int pickIndex() {
+            if (bid >= list.size()) {
+                bid = 0;
+                iid = 0;
+            }
+            int[] info = list.get(bid);
+            int id = info[0], cnt = info[1];
+            if (iid >= cnt) {
+                bid++;
+                iid = 0;
+                return pickIndex();
+            }
+            iid++;
+            return id;
         }
     }
 }
