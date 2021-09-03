@@ -11,7 +11,7 @@ public class QuickSort {
     Random random = new Random();
 
     public static void main(String[] args) {
-        int[] a = new int[]{3, 2, 4, 1, 5, 6};
+        int[] a = new int[]{6, 3, 5, 7, 2, 4, 1, 8};
 
         System.out.println(Arrays.toString(new QuickSort().sort(a)));
     }
