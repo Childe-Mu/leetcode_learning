@@ -164,4 +164,24 @@ public class No4_findMedianSortedArrays {
             }
         }
     }
+
+    public double findMedianSortedArrays_v3(int[] nums1, int[] nums2) {
+        int m = nums1.length;
+        int n = nums2.length;
+        int[] nums = new int[m + n];
+        int i = 0, j = 0;
+        for (int k = 0; k < m + n; k++) {
+            int t1 = i < m ? nums1[i] : Integer.MAX_VALUE;
+            int t2 = j < n ? nums2[j] : Integer.MAX_VALUE;
+            if (t1 <= t2) {
+                nums[k] = t1;
+                i++;
+            } else {
+                nums[k] = t2;
+                j++;
+            }
+        }
+        int l = m + n;
+        return (l & 1) == 1 ? nums[l >> 1] : (nums[l >> 1] + nums[(l >> 1) - 1]) / 2.0;
+    }
 }

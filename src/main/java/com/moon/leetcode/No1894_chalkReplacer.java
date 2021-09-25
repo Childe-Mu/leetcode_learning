@@ -72,4 +72,30 @@ public class No1894_chalkReplacer {
         }
         return i;
     }
+
+    public static void main(String[] args) {
+        System.out.println(new No1894_chalkReplacer().chalkReplacer_v2(new int[]{5, 1, 5}, 22));
+    }
+
+    public int chalkReplacer_v2(int[] chalk, int k) {
+        int n = chalk.length;
+        int[] sum = new int[n + 1];
+        for (int i = 0; i < n; i++) {
+            sum[i + 1] = sum[i] + chalk[i];
+            if (k <= sum[i + 1]) {
+                return k == sum[i + 1] ? (i + 1) % n : i;
+            }
+        }
+        int mod = k % sum[n];
+        int l = 1, r = n;
+        while (l < r) {
+            int m = (r - l) / 2 + l;
+            if (sum[m] < mod) {
+                l = m + 1;
+            } else {
+                r = m;
+            }
+        }
+        return mod == sum[r] ? r % n : r - 1;
+    }
 }

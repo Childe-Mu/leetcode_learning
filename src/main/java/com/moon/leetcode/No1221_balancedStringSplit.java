@@ -1,6 +1,7 @@
 package com.moon.leetcode;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * 1221. 分割平衡字符串<br/>
@@ -31,38 +32,38 @@ import java.util.Stack;
  * 分割得到的每个字符串都必须是平衡字符串。
  */
 public class No1221_balancedStringSplit {
-    // /**
-    //  * 使用贪心算法+平衡值（平衡值会在一边多时偏向这一边，如果归零则表示平衡）
-    //  */
-    // public static int balancedStringSplit(String s) {
-    //     int cnt = 0;
-    //     int balance = 0;
-    //     char[] chars = s.toCharArray();
-    //     for (char c : chars) {
-    //         if (c == 'L') {
-    //             balance--;
-    //         } else {
-    //             balance++;
-    //         }
-    //         if(balance == 0) cnt ++;
-    //     }
-    //     return cnt;
-    // }
+    /**
+     * 使用贪心算法+平衡值（平衡值会在一边多时偏向这一边，如果归零则表示平衡）
+     */
+    public static int balancedStringSplit_v1(String s) {
+        int cnt = 0;
+        int balance = 0;
+        char[] chars = s.toCharArray();
+        for (char c : chars) {
+            if (c == 'L') {
+                balance--;
+            } else {
+                balance++;
+            }
+            if (balance == 0) cnt++;
+        }
+        return cnt;
+    }
 
     /**
      * 贪心+栈
      */
-    public static int balancedStringSplit(String s) {
+    public static int balancedStringSplit_v2(String s) {
         int cnt = 0;
-        Stack<Character> stack = new Stack<>();
+        Deque<Character> stack = new ArrayDeque<>();
         char[] chars = s.toCharArray();
         for (char c : chars) {
-            if (stack.empty() || c == stack.peek()) {
+            if (stack.isEmpty() || c == stack.peek()) {
                 stack.push(c);
             } else {
                 stack.pop();
             }
-            if (stack.empty()) {
+            if (stack.isEmpty()) {
                 cnt++;
             }
         }
@@ -70,6 +71,17 @@ public class No1221_balancedStringSplit {
     }
 
     public static void main(String[] args) {
-        System.out.println(balancedStringSplit("LLLLRRLRLRRR"));
+        System.out.println(balancedStringSplit_v1("LLLLRRLRLRRR"));
+    }
+
+    public int balancedStringSplit_v3(String s) {
+        char[] cs = s.toCharArray();
+        int cnt = 0;
+        int ans = 0;
+        for (char c : cs) {
+            cnt += c == 'L' ? 1 : -1;
+            ans += cnt == 0 ? 1 : 0;
+        }
+        return ans;
     }
 }
