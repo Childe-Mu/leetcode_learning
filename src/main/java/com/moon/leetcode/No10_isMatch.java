@@ -233,36 +233,32 @@ public class No10_isMatch {
 
 
     public boolean isMatch_v4(String s, String p) {
-        int m = s.length();
-        int n = p.length();
-        char[] sArr = s.toCharArray();
-        char[] pArr = p.toCharArray();
+        char[] ss = s.toCharArray();
+        char[] pp = p.toCharArray();
+        int m = ss.length;
+        int n = pp.length;
         boolean[][] f = new boolean[m + 1][n + 1];
         f[0][0] = true;
-        for (int i = 0; i < n; i++) {
-            f[0][i + 1] = pArr[i] == '*' && f[0][i - 1];
+        for (int j = 0; j < n; j++) {
+            if (pp[j] == '*') {
+                f[0][j + 1] = f[0][j - 1];
+            }
         }
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (pArr[j] == '*') {
-                    if (sArr[i] == pArr[j - 1] || pArr[j - 1] == '.') {
-                        f[i + 1][j + 1] = f[i + 1][j - 1] || f[i][j + 1];
+                if (pp[j] == '*') {
+                    if (pp[j - 1] == '.' || pp[j - 1] == ss[i]) {
+                        f[i + 1][j + 1] = f[i][j + 1] || f[i + 1][j - 1];
                     } else {
                         f[i + 1][j + 1] = f[i + 1][j - 1];
                     }
                 } else {
-                    if (sArr[i] == pArr[j] || pArr[j] == '.') {
+                    if (pp[j] == '.' || ss[i] == pp[j]) {
                         f[i + 1][j + 1] = f[i][j];
                     }
-//                    else {
-//                        f[i + 1][j + 1] = false;
-//                    }
                 }
             }
         }
-
         return f[m][n];
     }
-
-
 }
