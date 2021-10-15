@@ -47,41 +47,64 @@ package com.moon.leetcode;
  * 1 <= n <= 30
  */
 public class No38_countAndSay {
+    private static final String[] cache = new String[31];
+
+    static {
+        cache[0] = "";
+        cache[1] = "1";
+        for (int i = 2; i <= 30; i++) {
+            char[] pre = cache[i - 1].toCharArray();
+            int m = pre.length;
+            int c = 0;
+            StringBuilder sb = new StringBuilder();
+            for (int j = 0; j < m; j++) {
+                if (j == m - 1 || pre[j] != pre[j + 1]) {
+                    sb.append(c + 1).append(pre[j]);
+                    c = 0;
+                } else {
+                    c++;
+                }
+            }
+            cache[i] = sb.toString();
+        }
+    }
+
     /**
      * 循环
      */
-//    public static String countAndSay(int n) {
-//        if (n == 1) {
-//            return "1";
-//        }
-//        String res = "1";
-//        for (int i = 1; i < n; i++) {
-//            res = countAndSay1(res);
-//        }
-//        return res;
-//    }
-//    private static String countAndSay1(String res) {
-//        res += "a";
-//        StringBuilder r = new StringBuilder();
-//        int l = 1;
-//        for (int i = 0; i < res.length() - 1; i++) {
-//            if (res.charAt(i) != res.charAt(i + 1)) {
-//                r.append(l).append(res.charAt(i));
-//                l = 1;
-//            } else {
-//                l++;
-//            }
-//        }
-//        return r.toString();
-//    }
+    public static String countAndSay_v1(int n) {
+        if (n == 1) {
+            return "1";
+        }
+        String res = "1";
+        for (int i = 1; i < n; i++) {
+            res = countAndSay1(res);
+        }
+        return res;
+    }
+
+    private static String countAndSay1(String res) {
+        res += "a";
+        StringBuilder r = new StringBuilder();
+        int l = 1;
+        for (int i = 0; i < res.length() - 1; i++) {
+            if (res.charAt(i) != res.charAt(i + 1)) {
+                r.append(l).append(res.charAt(i));
+                l = 1;
+            } else {
+                l++;
+            }
+        }
+        return r.toString();
+    }
 
     /**
      * 递归，实际上就是上面的双层循环，上面的循环更容易理解
      */
-    public static String countAndSay(int n) {
+    public static String countAndSay_v2(int n) {
         if (n == 1)  //递归第一件事, 递归结束条件
             return "1";
-        String str = countAndSay(n - 1); //上一轮的输出是是下一轮的输入
+        String str = countAndSay_v2(n - 1); //上一轮的输出是是下一轮的输入
         StringBuilder ans = new StringBuilder(); //存放当前轮答案
         int len = str.length();
         /*
@@ -102,6 +125,10 @@ public class No38_countAndSay {
     }
 
     public static void main(String[] args) {
-        System.out.println(countAndSay(5));
+        System.out.println(countAndSay_v1(5));
+    }
+
+    public String countAndSay_v3(int n) {
+        return cache[n];
     }
 }
