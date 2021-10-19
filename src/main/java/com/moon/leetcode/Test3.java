@@ -1,9 +1,5 @@
 package com.moon.leetcode;
 
-/**
- * @author yaojia.mu@joymo.tech
- * @date 2021-06-26 22:29:26
- */
 public class Test3 {
     public static void main(String[] args) {
 //        System.out.println("12344544544".indexOf("44"));
