@@ -50,7 +50,7 @@ public class No66_plusOne {
     /**
      * 秒啊
      */
-    public static int[] plusOne(int[] digits) {
+    public static int[] plusOne_v1(int[] digits) {
         // 不是9,99，999这样情况，一定会在if模块里返回，即某个位置加一后小于10，则不用再进位
         for (int i = digits.length - 1; i >= 0; i--) {
             digits[i]++;
@@ -66,7 +66,24 @@ public class No66_plusOne {
         return digits;
     }
 
+    public static int[] plusOne_v2(int[] digits) {
+        int carry = 1;
+        int n = digits.length;
+        for (int i = n - 1; i >= 0; i--) {
+            int t = digits[i] + carry;
+            carry = t / 10;
+            digits[i] = t % 10;
+            if (carry == 0) {
+                return digits;
+            }
+        }
+        int[] ans = new int[n + 1];
+        System.arraycopy(digits, 0, ans, 1, n);
+        ans[0] = carry;
+        return ans;
+    }
+
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(plusOne(new int[]{8, 9, 8})));
+        System.out.println(Arrays.toString(plusOne_v2(new int[]{9, 9, 9})));
     }
 }
