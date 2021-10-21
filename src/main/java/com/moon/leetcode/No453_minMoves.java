@@ -37,7 +37,7 @@ package com.moon.leetcode;
  * <div><div>Related Topics</div><div><li>数组</li><li>数学</li></div></div><br><div><li>👍 346</li><li>👎 0</li></div>
  */
 public class No453_minMoves {
-    public int minMoves(int[] nums) {
+    public int minMoves_v1(int[] nums) {
         int n = nums.length;
         int min = nums[0];
         for (int i = 1; i < n; i++) {
@@ -48,5 +48,15 @@ public class No453_minMoves {
             ans += num - min;
         }
         return ans;
+    }
+
+    public int minMoves_v2(int[] nums) {
+        int n = nums.length;
+        long min = nums[0], sum = 0;
+        for (int i : nums) {
+            min = Math.min(min, i);
+            sum += i;
+        }
+        return (int) (sum - min * n);
     }
 }
