@@ -134,6 +134,7 @@ public class No1931_colorTheGrid {
         return true;
     }
 
+
     private int addWithMode(int a, int b) {
         int mode = (int) 1E9 + 7;
         return (a + b) % mode;
