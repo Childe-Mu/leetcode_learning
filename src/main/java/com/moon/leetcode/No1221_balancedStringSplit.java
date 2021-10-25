@@ -1,6 +1,7 @@
 package com.moon.leetcode;
 
 import java.util.ArrayDeque;
+import java.util.Date;
 import java.util.Deque;
 
 /**
@@ -71,6 +72,7 @@ public class No1221_balancedStringSplit {
     }
 
     public static void main(String[] args) {
+        new Date();
         System.out.println(balancedStringSplit_v1("LLLLRRLRLRRR"));
     }
 
