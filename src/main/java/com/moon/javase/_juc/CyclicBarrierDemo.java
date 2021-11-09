@@ -17,6 +17,7 @@ import java.util.concurrent.CyclicBarrier;
  * 不用专门去reset()
  */
 public class CyclicBarrierDemo {
+    private final Random random = new Random();
 
     public static void main(String[] args) {
         new CyclicBarrierDemo().test1();
@@ -27,7 +28,6 @@ public class CyclicBarrierDemo {
         for (int i = 0; i < 5; i++) {
             int finalI = i;
             new Thread(() -> {
-                Random random = new Random();
                 int r = random.nextInt(10);
                 System.out.println("thread--" + finalI + " sleep " + r + "s");
                 try {
