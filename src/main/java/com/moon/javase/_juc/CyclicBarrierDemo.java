@@ -31,7 +31,7 @@ public class CyclicBarrierDemo {
                 int r = random.nextInt(10);
                 System.out.println("thread--" + finalI + " sleep " + r + "s");
                 try {
-                    Thread.sleep(r * 1000);
+                    Thread.sleep(r * 1000L);
                     System.out.println("thread--" + finalI + " awake");
                     cyclicBarrier.await();
                 } catch (InterruptedException | BrokenBarrierException e) {
