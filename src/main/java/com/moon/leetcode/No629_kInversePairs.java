@@ -45,7 +45,7 @@ public class No629_kInversePairs {
         Arrays.fill(sum[1], 1);
         for (int i = 2; i <= n; i++) {
             for (int j = 0; j <= k; j++) {
-                f[i][j] = j < i ? sum[i - 1][j] : sum[i - 1][j - (i - 1) - 1];
+                f[i][j] = j < i ? sum[i - 1][j] : sum[i - 1][j] - sum[i - 1][j - (i - 1) - 1];
                 f[i][j] = (f[i][j] + mod) % mod;
                 sum[i][j] = j == 0 ? f[i][j] : sum[i][j - 1] + f[i][j];
                 sum[i][j] = (sum[i][j] + mod) % mod;
