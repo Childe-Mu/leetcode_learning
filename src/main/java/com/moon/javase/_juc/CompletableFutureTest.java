@@ -17,12 +17,13 @@ public class CompletableFutureTest {
                 String s = finalI + "1";
                 System.out.println(s);
                 try {
+                    System.out.println(Thread.currentThread().getName());
                     Thread.sleep(finalI);
-                    System.out.println("thread--" + finalI + " awake");
+//                    System.out.println("thread--" + finalI + " awake");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("thread--" + finalI + " over! " + System.currentTimeMillis());
+//                System.out.println("thread--" + finalI + " over! " + System.currentTimeMillis());
 //                if (finalI == 9) {
 //                    throw new RuntimeException("ex test");
 //                }
