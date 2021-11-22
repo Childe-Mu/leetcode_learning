@@ -1,5 +1,8 @@
 package com.moon.leetcode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 14. 最长公共前缀  <br/>
  * 编写一个函数来查找字符串数组中的最长公共前缀。<br/>
@@ -113,8 +116,35 @@ public class No14_longestCommonPrefix {
     }
 
 
+    public static String longestCommonPrefix_v1(String[] strs) {
+        Trie root = new Trie();
+        for (String str : strs) {
+            char[] cs = str.toCharArray();
+            Trie t = root;
+            for (char c : cs) {
+                t = t.children.computeIfAbsent(c, o -> new Trie());
+            }
+            t.end = true;
+        }
+        StringBuilder sb = new StringBuilder();
+        Trie trie = root;
+        while (!trie.end && trie.children.size() == 1) {
+            for (char c : trie.children.keySet()) {
+                sb.append(c);
+                trie = trie.children.get(c);
+            }
+        }
+        return sb.toString();
+    }
+
+    private static class Trie {
+        Map<Character, Trie> children = new HashMap<>();
+        boolean end = false;
+    }
+
+
     public static void main(String[] args) {
         // System.out.println("123".startsWith(""));
-        System.out.println(longestCommonPrefix(new String[]{"flower","flow","flight"}));
+        System.out.println(longestCommonPrefix_v1(new String[]{"flower", "flow", "flight"}));
     }
 }

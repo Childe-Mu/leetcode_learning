@@ -18,7 +18,8 @@ package com.moon.leetcode;
  * 输出: false
  */
 public class No125_isPalindrome {
-    public static boolean isPalindrome(String s) {
+    public static boolean isPalindrome_v1(String s) {
+
         int left = 0, right = s.length() - 1;
         while (left < right) {
             while (left < right && !Character.isLetterOrDigit(s.charAt(left))) {
@@ -38,7 +39,42 @@ public class No125_isPalindrome {
         return true;
     }
 
+    public static boolean isPalindrome_v2(String s) {
+        char[] cs = s.toCharArray();
+        int n = cs.length;
+        int l = 0, r = n - 1;
+        while (l <= r) {
+            if (!('a' <= cs[l] && cs[l] <= 'z') && !('A' <= cs[l] && cs[l] <= 'Z') && !('0' <= cs[l] && cs[l] <= '9')) {
+                l++;
+                continue;
+            }
+            if (!('a' <= cs[r] && cs[r] <= 'z') && !('A' <= cs[r] && cs[r] <= 'Z') && !('0' <= cs[r] && cs[r] <= '9')) {
+                r--;
+                continue;
+            }
+            int d1 = getDiff(cs[l]);
+            int d2 = getDiff(cs[r]);
+
+            if (d1 != d2) {
+                return false;
+            }
+            l++;
+            r--;
+        }
+        return true;
+    }
+
+    private static int getDiff(char c) {
+        if ('a' <= c && c <= 'z') {
+            return c - 'a';
+        }
+        if ('A' <= c && c <= 'Z') {
+            return c - 'A';
+        }
+        return c;
+    }
+
     public static void main(String[] args) {
-        System.out.println(isPalindrome("A man, a plan, a canal: Panama"));
+        System.out.println(isPalindrome_v1("A man, a plan, a canal: Panama"));
     }
 }
