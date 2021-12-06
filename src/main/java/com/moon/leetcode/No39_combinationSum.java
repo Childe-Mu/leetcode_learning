@@ -73,7 +73,7 @@ public class No39_combinationSum {
 
     private void backtrack(int[] c, Deque<Integer> path, int t, int i) {
         if (t == 0) {
-            res.add(new ArrayList(path));
+            res.add(new ArrayList<>(path));
             return;
         }
         for(; i < c.length; i++) {
